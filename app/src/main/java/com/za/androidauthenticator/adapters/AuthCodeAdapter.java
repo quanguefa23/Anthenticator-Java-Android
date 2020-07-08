@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
+import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.model.AuthCode;
 
 import java.util.List;
@@ -47,26 +48,11 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         AuthCode authCode = listCodes.get(position);
 
         // Set text
-        holder.siteName.setText(authCode.getSite());
-        holder.accountName.setText(authCode.getEmail());
+        holder.siteName.setText(authCode.getSiteName());
+        holder.accountName.setText(authCode.getAccountName());
 
-        // Set icon site
-        switch (authCode.getSite()) {
-            case "Google": {
-                holder.siteIcon.setImageResource(R.drawable.ic_google);
-                break;
-            }
-            case "Facebook": {
-                holder.siteIcon.setImageResource(R.drawable.ic_facebook);
-                break;
-            }
-            case "Twitter": {
-                holder.siteIcon.setImageResource(R.drawable.ic_twitter);
-                break;
-            }
-            default: holder.siteIcon.setImageResource(R.drawable.ic_web);
-        }
-
+        // Set site icon
+        holder.siteIcon.setImageResource(SiteIconContract.getIconId(authCode.getSiteName()));
 
         Animation ani = AnimationUtils.loadAnimation(context, R.anim.item_animation_scale);
         holder.container.startAnimation(ani);
@@ -90,7 +76,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         return listCodes;
     }
 
-    public class NewsDiffCallback extends DiffUtil.Callback {
+    public static class NewsDiffCallback extends DiffUtil.Callback {
         private final List<AuthCode> oldList;
         private final List<AuthCode> newList;
 

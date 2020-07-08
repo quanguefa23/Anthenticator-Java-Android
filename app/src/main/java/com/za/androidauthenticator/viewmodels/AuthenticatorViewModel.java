@@ -9,8 +9,6 @@ import com.za.androidauthenticator.data.repository.UserRepository;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class AuthenticatorViewModel extends ViewModel {
 
     private final UserRepository userRepository;

@@ -34,14 +34,14 @@
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_google" />
+            android:src="@{myViewModel.siteIcon == null ? @drawable/ic_web : context.getDrawable(myViewModel.siteIcon)}" />
 
         <TextView
             android:id="@+id/siteName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Google"
+            android:text="@{myViewModel.siteName}"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -56,7 +56,7 @@
             android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="nhqnhquang1@gmail.com"
+            android:text="@{myViewModel.accountName}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/siteIcon"
@@ -79,7 +79,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/siteName"
             app:layout_constraintStart_toEndOf="@+id/siteName"
             app:srcCompat="@drawable/ic_edit" />
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="717 661"
+            android:text="@{myViewModel.code}"
             android:textColor="@color/green"
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -206,7 +206,7 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30"
+            android:text="@{myViewModel.timeRemaining}"
             app:layout_constraintBottom_toTopOf="@+id/line2"
             app:layout_constraintEnd_toStartOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"

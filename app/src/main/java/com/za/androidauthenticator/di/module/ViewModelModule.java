@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.data.repository.UserRepository;
 import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
+import com.za.androidauthenticator.viewmodels.DetailCodeViewModel;
 import com.za.androidauthenticator.viewmodels.ViewModelFactory;
 
 import java.lang.annotation.ElementType;
@@ -39,5 +40,12 @@ public class ViewModelModule {
     @ViewModelKey(AuthenticatorViewModel.class)
     ViewModel authenticatorViewModel(UserRepository userRepository) {
         return new AuthenticatorViewModel(userRepository);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DetailCodeViewModel.class)
+    ViewModel detailCodeViewModel() {
+        return new DetailCodeViewModel();
     }
 }

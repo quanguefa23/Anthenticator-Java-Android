@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
+import com.za.androidauthenticator.data.model.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.di.MyApplication;
 import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
@@ -27,37 +28,34 @@ public class AuthenticatorActivity extends BaseActivity {
     @Inject
     ViewModelFactory viewModelFactory;
 
-    AuthenticatorViewModel viewModel;
-
+    private AuthenticatorViewModel viewModel;
     private ActivityAuthenticatorBinding binding; // view binding
     private AuthCodeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(bindingView());
 
-        // Make Dagger instantiate @Inject fields in LoginActivity
+        // Make Dagger instantiate @Inject fields in AuthenticatorActivity
         ((MyApplication) getApplicationContext()).appGraph.inject(this);
-        // Now loginViewModel is available
+        // Now viewModelFactory is available
 
         viewModel = new ViewModelProvider(this, viewModelFactory).get(AuthenticatorViewModel.class);
-        Log.d("QUANG", viewModel.hashCode() + "");
+
+        // Test configuration change -> must not change hashcode of viewModel every rotation
+        Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
 
         prepareRecyclerView();
+        setOnClickItem();
         setAdapterSubscribeUI();
         viewModel.updateListCodes();
-
-        super.onCreate(savedInstanceState);
-    }
-
-    private View bindingView() {
-        binding = ActivityAuthenticatorBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public View bindingView() {
+        binding = ActivityAuthenticatorBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     private void setAdapterSubscribeUI() {
@@ -73,13 +71,13 @@ public class AuthenticatorActivity extends BaseActivity {
 
         adapter = new AuthCodeAdapter(this, R.layout.layout_authcodes_row, new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
-        
-        setOnClickItem();
     }
 
     private void setOnClickItem() {
         adapter.setOnItemClickListener((itemView, position) -> {
             Intent intent = new Intent(AuthenticatorActivity.this, DetailCodeActivity.class);
+            AuthCode authCode = adapter.getListCodes().get(position);
+            intent.putExtra("authCode", authCode);
             startActivity(intent);
         });
     }

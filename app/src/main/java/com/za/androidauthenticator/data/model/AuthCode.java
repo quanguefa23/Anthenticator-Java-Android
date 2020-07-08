@@ -1,18 +1,19 @@
 package com.za.androidauthenticator.data.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AuthCode {
+public class AuthCode implements Serializable {
     private String id;
     private String key;
-    private String site;
-    private String email;
+    private String siteName;
+    private String accountName;
     private String code;
 
-    public AuthCode(String key, String site, String email) {
+    public AuthCode(String key, String siteName, String accountName) {
         this.key = key;
-        this.site = site;
-        this.email = email;
+        this.siteName = siteName;
+        this.accountName = accountName;
     }
 
     @Override
@@ -21,14 +22,14 @@ public class AuthCode {
         if (o == null || getClass() != o.getClass()) return false;
         AuthCode authCode = (AuthCode) o;
         return Objects.equals(key, authCode.key) &&
-                Objects.equals(site, authCode.site) &&
-                Objects.equals(email, authCode.email) &&
+                Objects.equals(siteName, authCode.siteName) &&
+                Objects.equals(accountName, authCode.accountName) &&
                 Objects.equals(code, authCode.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, site, email, code);
+        return Objects.hash(key, siteName, accountName, code);
     }
 
     public String getKey() {
@@ -39,20 +40,20 @@ public class AuthCode {
         this.key = key;
     }
 
-    public String getSite() {
-        return site;
+    public String getSiteName() {
+        return siteName;
     }
 
-    public void setSite(String site) {
-        this.site = site;
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public String getCode() {
