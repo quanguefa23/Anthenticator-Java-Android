@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,6 +62,10 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
+            if (list == null || list.isEmpty())
+                binding.emptyView.setVisibility(View.VISIBLE);
+            else
+                binding.emptyView.setVisibility(View.INVISIBLE);
         });
     }
 
@@ -69,7 +74,7 @@ public class AuthenticatorActivity extends BaseActivity {
         RecyclerView.LayoutManager layoutManager  = new LinearLayoutManager(this);
         binding.recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AuthCodeAdapter(this, R.layout.layout_authcodes_row, new ArrayList<>());
+        adapter = new AuthCodeAdapter(this, R.layout.content_authcodes_row, new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
     }
 

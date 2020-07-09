@@ -49,63 +49,24 @@ public class DetailCodeActivity extends BaseActivity {
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
 
+        // Update data
         AuthCode authCode = (AuthCode) getIntent().getSerializableExtra("authCode");
         if (authCode != null) {
             viewModel.updateInfoData(authCode.getSiteName(), authCode.getAccountName());
+            viewModel.updateCodeData(authCode.getKey());
         }
-
-
-
-
-        thread = new MyThread();
-        //thread.start();
     }
-
-    MyThread thread;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        thread.stopThread();
+        viewModel.stopCalculateCode();
     }
 
     @Override
     public View bindingView() {
         binding = ActivityDetailCodeBinding.inflate(getLayoutInflater());
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
-    }
-
-    static class MyThread extends Thread {
-        boolean play = true;
-
-        public void stopThread() {
-            play = false;
-        }
-
-        @Override
-        public void run() {
-            int DEFAULT_TIME_STEP_SECONDS = 30;
-            String base32Secret = "DJ5W4EBMOXJMYCO3E3KCW4G6CL53VXQ6";
-
-            int code = 0;
-
-            while (play) {
-                long diff = DEFAULT_TIME_STEP_SECONDS - ((System.currentTimeMillis() / 1000) % DEFAULT_TIME_STEP_SECONDS);
-                try {
-                    code = TimeBasedOneTimePasswordUtil.generateNumber(base32Secret, System.currentTimeMillis(),
-                            DEFAULT_TIME_STEP_SECONDS);
-                } catch (GeneralSecurityException e) {
-                    e.printStackTrace();
-                }
-
-                Log.d("QUANG", "Secret code = " + code + ", change in " + diff + " seconds");
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

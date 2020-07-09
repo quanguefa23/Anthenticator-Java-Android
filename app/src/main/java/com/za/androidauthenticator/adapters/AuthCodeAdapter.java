@@ -68,7 +68,9 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
         listCodes.clear();
-        listCodes.addAll(newListCodes);
+
+        if (newListCodes != null)
+            listCodes.addAll(newListCodes);
         diffResult.dispatchUpdatesTo(this);
     }
 

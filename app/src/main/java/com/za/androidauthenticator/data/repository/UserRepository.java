@@ -13,7 +13,8 @@ public class UserRepository {
     private final UserRemoteDataSource userRemoteDataSource;
 
     @Inject
-    public UserRepository(UserLocalDataSource userLocalDataSource, UserRemoteDataSource userRemoteDataSource) {
+    public UserRepository(UserLocalDataSource userLocalDataSource,
+                          UserRemoteDataSource userRemoteDataSource) {
         this.userLocalDataSource = userLocalDataSource;
         this.userRemoteDataSource = userRemoteDataSource;
     }
