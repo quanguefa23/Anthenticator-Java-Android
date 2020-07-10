@@ -22,4 +22,5 @@
     <string name="sign_in">Sign In</string>
     <string name="you_have_no_2fa_code_yet">You have no 2FA code yet</string>
     <string name="or_you_can_sign_in_via_google_account_to_sync_your_old_code">Or you can sign in via google account to sync your old code</string>
+    <string name="copy_code_clipboard">Code copied to the clipboard</string>
 </resources>

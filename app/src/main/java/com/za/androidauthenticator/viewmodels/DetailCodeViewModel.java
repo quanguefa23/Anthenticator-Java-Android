@@ -10,24 +10,25 @@ public class DetailCodeViewModel extends ViewModel {
 
     private CalculateCodeUtil calculateCodeUtil;
 
-    private MutableLiveData<String> timeRemaining;
-    private MutableLiveData<Integer> timeNumber;
-    private MutableLiveData<String> code;
+    private MutableLiveData<Integer> reTimeNumber;
+    private MutableLiveData<String> reTimeString;
+    private MutableLiveData<String> codeString;
     private MutableLiveData<String> siteName;
     private MutableLiveData<String> accountName;
     private MutableLiveData<Integer> siteIcon;
 
+
     public DetailCodeViewModel() {
-        timeRemaining = new MutableLiveData<>();
-        timeNumber = new MutableLiveData<>();
-        code = new MutableLiveData<>();
+        reTimeString = new MutableLiveData<>();
+        reTimeNumber = new MutableLiveData<>();
+        codeString = new MutableLiveData<>();
         siteName = new MutableLiveData<>();
         accountName = new MutableLiveData<>();
         siteIcon = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Integer> getTimeNumber() {
-        return timeNumber;
+    public MutableLiveData<Integer> getReTimeNumber() {
+        return reTimeNumber;
     }
 
     public MutableLiveData<String> getSiteName() {
@@ -42,12 +43,12 @@ public class DetailCodeViewModel extends ViewModel {
         return siteIcon;
     }
 
-    public MutableLiveData<String> getTimeRemaining() {
-        return timeRemaining;
+    public MutableLiveData<String> getReTimeString() {
+        return reTimeString;
     }
 
-    public MutableLiveData<String> getCode() {
-        return code;
+    public MutableLiveData<String> getCodeString() {
+        return codeString;
     }
 
     public void updateInfoData(String siteName, String accountName) {
@@ -59,13 +60,13 @@ public class DetailCodeViewModel extends ViewModel {
     public void updateCodeData(String key) {
         // Register callback to update UI (time)
         CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback = time -> {
-            timeRemaining.postValue(Integer.toString(time));
-            timeNumber.postValue(time);
+            reTimeString.postValue(Integer.toString(time));
+            reTimeNumber.postValue(time);
         };
 
         // Register callback to update UI (code)
-        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codeString ->
-                code.postValue(codeString);
+        CalculateCodeUtil.OnUpdateCode updateCodeCallback = code ->
+                this.codeString.postValue(formatToString(code));
 
         calculateCodeUtil = new CalculateCodeUtil(key, updateTimeCallback, updateCodeCallback);
         calculateCodeUtil.startCalculate();
@@ -74,5 +75,13 @@ public class DetailCodeViewModel extends ViewModel {
     public void stopCalculateCode() {
         if (calculateCodeUtil != null)
             calculateCodeUtil.stopCalculate();
+    }
+
+    private String formatToString(int tempCode) {
+        String res = Integer.toString(tempCode);
+        while (res.length() < 6) {
+            res = "0" + res;
+        }
+        return res.substring(0, 3) + ' ' + res.substring(3);
     }
 }

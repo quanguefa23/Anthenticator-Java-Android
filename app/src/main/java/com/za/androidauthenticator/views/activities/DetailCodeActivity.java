@@ -1,11 +1,16 @@
 package com.za.androidauthenticator.views.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.model.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.di.MyApplication;
@@ -61,5 +66,14 @@ public class DetailCodeActivity extends BaseActivity {
         binding = ActivityDetailCodeBinding.inflate(getLayoutInflater());
         binding.setLifecycleOwner(this);
         return binding.getRoot();
+    }
+
+    public void copyCodeToClipBoard(String code) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("2fa",code.substring(0, 3) + code.substring(4));
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(this, R.string.copy_code_clipboard, Toast.LENGTH_LONG).show();
+        }
     }
 }

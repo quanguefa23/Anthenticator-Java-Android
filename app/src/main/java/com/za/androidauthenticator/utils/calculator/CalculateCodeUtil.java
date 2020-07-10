@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class CalculateCodeUtil {
 
     public interface OnUpdateCode {
-        void onUpdateCode(String code);
+        void onUpdateCode(int codeNumber);
     }
 
     public interface OnUpdateTimeRemaining {
@@ -106,15 +106,7 @@ public class CalculateCodeUtil {
             }
 
             // Update UI
-            updateCodeCallbacks.get(i).onUpdateCode(formatToString(tempCode));
+            updateCodeCallbacks.get(i).onUpdateCode(tempCode);
         }
-    }
-
-    private String formatToString(int tempCode) {
-        String res = Integer.toString(tempCode);
-        while (res.length() < 6) {
-            res = "0" + res;
-        }
-        return res.substring(0, 3) + ' ' + res.substring(3);
     }
 }
