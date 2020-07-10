@@ -7,6 +7,9 @@
         <variable
             name="myViewModel"
             type="com.za.androidauthenticator.viewmodels.DetailCodeViewModel" />
+        <variable
+            name="myController"
+            type="com.za.androidauthenticator.views.activities.DetailCodeActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +27,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
         </FrameLayout>
 
         <ImageView
@@ -66,6 +68,7 @@
             app:layout_constraintStart_toStartOf="@+id/siteName" />
 
         <ImageView
+            android:onClick="@{() -> myController.onBackPressed()}"
             android:id="@+id/backButton"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -203,7 +206,8 @@
             app:layout_constraintTop_toBottomOf="@+id/removeTextView" />
 
         <TextView
-            android:textSize="20sp"
+            android:textSize="13sp"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -212,6 +216,23 @@
             app:layout_constraintEnd_toStartOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+<!--        android:text="@{myViewModel.timeRemaining}"-->
+<!--        android:progress="@{myViewModel.timeNumber}"-->
+        <ProgressBar
+            android:id="@+id/circle_progress"
+            style="?android:progressBarStyleHorizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:max="30"
+            android:progress="@{myViewModel.timeNumber}"
+            android:background="@drawable/progress_circle_background"
+            android:progressDrawable="@drawable/progress_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/time"
+            app:layout_constraintEnd_toEndOf="@+id/time"
+            app:layout_constraintStart_toStartOf="@+id/time"
+            app:layout_constraintTop_toTopOf="@+id/time" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.TextView;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
-import com.za.androidauthenticator.data.model.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.di.MyApplication;
 import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
@@ -32,6 +32,7 @@ public class AuthenticatorActivity extends BaseActivity {
     private AuthenticatorViewModel viewModel;
     private ActivityAuthenticatorBinding binding; // view binding
     private AuthCodeAdapter adapter;
+    private boolean firstLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class AuthenticatorActivity extends BaseActivity {
         // Test configuration change -> must not change hashcode of viewModel every rotation
         Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
 
+        firstLoad = true;
         prepareRecyclerView();
         setOnClickItem();
         setAdapterSubscribeUI();
@@ -62,10 +64,21 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
-            if (list == null || list.isEmpty())
+
+            if (list == null || list.isEmpty()) {
                 binding.emptyView.setVisibility(View.VISIBLE);
-            else
+            }
+            else {
+                // Hide empty view
                 binding.emptyView.setVisibility(View.INVISIBLE);
+                if (firstLoad) {
+                    firstLoad = false;
+                    // Animation
+                    LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(
+                            AuthenticatorActivity.this, R.anim.layout_animation_from_bottom);
+                    binding.recyclerView.setLayoutAnimation(animation);
+                }
+            }
         });
     }
 
@@ -81,8 +94,7 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setOnClickItem() {
         adapter.setOnItemClickListener((itemView, position) -> {
             Intent intent = new Intent(AuthenticatorActivity.this, DetailCodeActivity.class);
-            AuthCode authCode = adapter.getListCodes().get(position);
-            intent.putExtra("authCode", authCode);
+            intent.putExtra("authCode", adapter.getListCodes().get(position));
             startActivity(intent);
         });
     }

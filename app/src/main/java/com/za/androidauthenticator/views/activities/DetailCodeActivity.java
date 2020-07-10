@@ -4,22 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.model.AuthCode;
-import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.di.MyApplication;
-import com.za.androidauthenticator.utils.TimeBasedOneTimePasswordUtil;
-import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
 import com.za.androidauthenticator.viewmodels.DetailCodeViewModel;
 import com.za.androidauthenticator.viewmodels.ViewModelFactory;
 import com.za.androidauthenticator.views.base.BaseActivity;
-
-import java.security.GeneralSecurityException;
 
 import javax.inject.Inject;
 
@@ -48,6 +40,7 @@ public class DetailCodeActivity extends BaseActivity {
 
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
+        binding.setMyController(this);
 
         // Update data
         AuthCode authCode = (AuthCode) getIntent().getSerializableExtra("authCode");
