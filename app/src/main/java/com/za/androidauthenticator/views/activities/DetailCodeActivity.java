@@ -27,6 +27,7 @@ public class DetailCodeActivity extends BaseActivity {
 
     private DetailCodeViewModel viewModel;
     private ActivityDetailCodeBinding binding;
+    private AuthCode authCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,23 @@ public class DetailCodeActivity extends BaseActivity {
         binding.setMyController(this);
 
         // Update data
-        AuthCode authCode = (AuthCode) getIntent().getSerializableExtra("authCode");
+        authCode = (AuthCode) getIntent().getSerializableExtra("authCode");
         if (authCode != null) {
             viewModel.updateInfoData(authCode.getSiteName(), authCode.getAccountName());
+            viewModel.updateCodeData(authCode.getKey());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewModel.stopCalculateCode();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (authCode != null) {
             viewModel.updateCodeData(authCode.getKey());
         }
     }
@@ -68,12 +83,12 @@ public class DetailCodeActivity extends BaseActivity {
         return binding.getRoot();
     }
 
-    public void copyCodeToClipBoard(String code) {
+    public void onCopyCodeToClipBoard(String code) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("2fa",code.substring(0, 3) + code.substring(4));
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, R.string.copy_code_clipboard, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.copy_code_clipboard, Toast.LENGTH_SHORT).show();
         }
     }
 }
