@@ -3,9 +3,11 @@ package com.za.androidauthenticator.di.module;
 import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.data.repository.UserRepository;
-import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
-import com.za.androidauthenticator.viewmodels.DetailCodeViewModel;
-import com.za.androidauthenticator.viewmodels.ViewModelFactory;
+import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
+import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
+import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
+import com.za.androidauthenticator.viewmodel.ScanQrViewModel;
+import com.za.androidauthenticator.viewmodel.ViewModelFactory;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -47,5 +49,19 @@ public class ViewModelModule {
     @ViewModelKey(DetailCodeViewModel.class)
     ViewModel detailCodeViewModel() {
         return new DetailCodeViewModel();
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(EnterKeyViewModel.class)
+    ViewModel enterKeyViewModel() {
+        return new EnterKeyViewModel();
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(ScanQrViewModel.class)
+    ViewModel scanQrViewModel() {
+        return new ScanQrViewModel();
     }
 }

@@ -26,7 +26,7 @@
             app:srcCompat="@drawable/ic_web" />
 
         <TextView
-            android:id="@+id/siteName"
+            android:id="@+id/siteNameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -49,7 +49,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/siteIcon"
-            app:layout_constraintTop_toBottomOf="@+id/siteName" />
+            app:layout_constraintTop_toBottomOf="@+id/siteNameLayout" />
 
         <ImageView
             android:layout_width="15dp"

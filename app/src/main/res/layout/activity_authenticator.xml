@@ -1,150 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.motion.widget.MotionLayout
-        android:layout_width="match_parent"
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="myViewModel"
+            type="com.za.androidauthenticator.viewmodel.AuthenticatorViewModel" />
+        <variable
+            name="myController"
+            type="com.za.androidauthenticator.view.activities.AuthenticatorActivity" />
+    </data>
+
+    <FrameLayout
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/activity_authenticator_scene">
+        android:layout_width="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motionLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layoutDescription="@xml/activity_authenticator_scene">
 
-        <FrameLayout
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/frameLayout"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:onClick="@{() -> myController.revertMotion()}"
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/filter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.8"
+                android:background="@color/background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/recyclerView"
+                app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/addButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/ic_add"
+                app:altSrc="@drawable/ic_cancel"
+                app:overlay="false"
+                app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:onClick="@{() -> myController.startScanQrActivity()}"
+                android:id="@+id/addViaQr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/addViaKey"
+                app:layout_constraintEnd_toEndOf="@+id/addViaKey">
+
+                <FrameLayout
+                    android:background="@drawable/background_card_view_custom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/scan_a_qr_code"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:onClick="@{() -> myController.startEnterKeyActivity()}"
+                android:id="@+id/addViaKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/addButton"
+                app:layout_constraintEnd_toStartOf="@+id/addButton">
+
+                <FrameLayout
+                    android:background="@drawable/background_card_view_custom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="@string/enter_a_setup_key"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emptyView"
+            android:visibility="@{(myViewModel.listCodes == null || myViewModel.listCodes.isEmpty()) ? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recyclerView"
-            app:layout_constraintTop_toTopOf="@+id/recyclerView" />
-
-        <androidx.constraintlayout.utils.widget.ImageFilterView
-            android:id="@+id/addButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_add"
-            app:altSrc="@drawable/ic_cancel"
-            app:overlay="false"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/addViaQr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/addViaKey"
-            app:layout_constraintEnd_toEndOf="@+id/addViaKey">
+            android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/textView6"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/scan_a_qr_code"
+                android:layout_marginTop="4dp"
+                android:text="@string/or_you_can_sign_in_via_google_account_to_sync_your_old_code"
                 android:textColor="@color/textColor"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/addViaKey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/addButton"
-            app:layout_constraintEnd_toStartOf="@+id/addButton">
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
             <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/add_new_2fa_code_by_clicking"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/enter_a_setup_key"
+                android:text="@string/you_have_no_2fa_code_yet"
                 android:textColor="@color/textColor"
                 android:textSize="16sp"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
 
+            <Button
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_custom"
+                android:id="@+id/signInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/sign_in"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>
 
-    </androidx.constraintlayout.motion.widget.MotionLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/or_you_can_sign_in_via_google_account_to_sync_your_old_code"
-            android:textColor="@color/textColor"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="40dp"
-            android:text="@string/add_new_2fa_code_by_clicking"
-            android:textColor="@color/textColor"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/you_have_no_2fa_code_yet"
-            android:textColor="@color/textColor"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
-
-        <Button
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:background="@drawable/button_custom"
-            android:id="@+id/signInButton"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/sign_in"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
 

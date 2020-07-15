@@ -6,276 +6,289 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodels.DetailCodeViewModel" />
+            type="com.za.androidauthenticator.viewmodel.DetailCodeViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.views.activities.DetailCodeActivity" />
+            type="com.za.androidauthenticator.view.activities.DetailCodeActivity" />
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:isScrollContainer="true"
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context="com.za.androidauthenticator.views.activities.DetailCodeActivity">
+            android:layout_height="match_parent"
+            tools:context="com.za.androidauthenticator.view.activities.DetailCodeActivity">
 
-            <FrameLayout
-                android:id="@+id/frameLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/upperLayout"
                 android:layout_width="match_parent"
                 android:layout_height="156dp"
                 android:background="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-            </FrameLayout>
 
-            <ImageView
-                android:id="@+id/exportIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/line3"
-                app:layout_constraintEnd_toStartOf="@+id/exportCode"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line2"
-                app:srcCompat="@drawable/ic_export" />
+                <ImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{() -> myController.onBackPressed()}"
+                    app:layout_constraintStart_toStartOf="@+id/upperLayout"
+                    app:layout_constraintTop_toTopOf="@+id/upperLayout"
+                    app:srcCompat="@drawable/ic_back" />
 
-            <TextView
-                android:id="@+id/exportCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="16dp"
-                android:text="Export this 2FA code"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line2" />
+                <ImageView
+                    android:id="@+id/siteIcon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginBottom="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@{myViewModel.siteIcon == null ? @drawable/ic_web : context.getDrawable(myViewModel.siteIcon)}"
+                    android:contentDescription="@string/site_icon" />
 
-            <View
-                android:id="@+id/line4"
+                <TextView
+                    android:id="@+id/siteName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@{myViewModel.siteName}"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/siteIcon"
+                    app:layout_constraintTop_toTopOf="@+id/siteIcon" />
+
+                <TextView
+                    android:id="@+id/accountName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{myViewModel.accountName}"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/siteIcon"
+                    app:layout_constraintEnd_toEndOf="@+id/upperLayout"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/siteName" />
+
+                <ImageView
+                    android:id="@+id/editButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/siteName"
+                    app:layout_constraintStart_toEndOf="@+id/siteName"
+                    app:srcCompat="@drawable/ic_edit" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/upperLayout">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lowerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/removeTextView" />
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/siteIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
-                app:layout_constraintStart_toStartOf="parent"
-                android:src="@{myViewModel.siteIcon == null ? @drawable/ic_web : context.getDrawable(myViewModel.siteIcon)}" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/one_time_passwords_enabled"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/siteName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@{myViewModel.siteName}"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/siteIcon"
-                app:layout_constraintTop_toTopOf="@+id/siteIcon" />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="@string/you_can_use_the_one_time_password_codes"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView3"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <TextView
-                android:id="@+id/accountName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@{myViewModel.accountName}"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/siteIcon"
-                app:layout_constraintEnd_toEndOf="@+id/frameLayout"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/siteName" />
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/line1"
+                    app:layout_constraintEnd_toStartOf="@+id/textView3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_checkmark" />
 
-            <ImageView
-                android:onClick="@{() -> myController.onBackPressed()}"
-                android:id="@+id/backButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/frameLayout"
-                app:layout_constraintTop_toTopOf="@+id/frameLayout"
-                app:srcCompat="@drawable/ic_back" />
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-            <ImageView
-                android:id="@+id/editButton"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintBottom_toBottomOf="@+id/siteName"
-                app:layout_constraintStart_toEndOf="@+id/siteName"
-                app:srcCompat="@drawable/ic_edit" />
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> myController.onCopyCodeToClipBoard(myViewModel.codeString)}"
+                    android:text="@string/one_time_password_code"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/line1"
-                app:layout_constraintEnd_toStartOf="@+id/textView3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-                app:srcCompat="@drawable/ic_checkmark" />
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{myViewModel.reTimeString}"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toTopOf="@+id/line2"
+                    app:layout_constraintEnd_toStartOf="@+id/textView5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/one_time_passwords_enabled"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+                <ProgressBar
+                    android:id="@+id/circle_progress"
+                    style="?android:progressBarStyleHorizontal"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/progress_circle_background"
+                    android:max="30"
+                    android:progress="@{myViewModel.reTimeNumber}"
+                    android:progressDrawable="@drawable/progress_circle"
+                    app:layout_constraintBottom_toBottomOf="@+id/time"
+                    app:layout_constraintEnd_toEndOf="@+id/time"
+                    app:layout_constraintStart_toStartOf="@+id/time"
+                    app:layout_constraintTop_toTopOf="@+id/time" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/you_can_use_the_one_time_password_codes"
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                <TextView
+                    android:id="@+id/code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/background_code_custom"
+                    android:onClick="@{() -> myController.onCopyCodeToClipBoard(myViewModel.codeString)}"
+                    android:text="@{myViewModel.codeString}"
+                    android:textColor="@color/green"
+                    android:textSize="32sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView5"
+                    app:layout_constraintStart_toStartOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-            <View
-                android:id="@+id/line1"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/code" />
 
-            <TextView
-                android:onClick="@{() -> myController.onCopyCodeToClipBoard(myViewModel.codeString)}"
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/one_time_password_code"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line1" />
+                <TextView
+                    android:id="@+id/exportCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/export_this_2fa_code"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line2" />
 
-            <TextView
-                android:id="@+id/code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/background_code_custom"
-                android:onClick="@{() -> myController.onCopyCodeToClipBoard(myViewModel.codeString)}"
-                android:text="@{myViewModel.codeString}"
-                android:textColor="@color/green"
-                android:textSize="32sp"
-                app:layout_constraintEnd_toEndOf="@+id/textView5"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                <ImageView
+                    android:id="@+id/exportIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/line3"
+                    app:layout_constraintEnd_toStartOf="@+id/exportCode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line2"
+                    app:srcCompat="@drawable/ic_export" />
 
-            <View
-                android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="8dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/code" />
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/exportCode" />
 
-            <TextView
-                android:id="@+id/removeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/remove_account"
-                android:textColor="@color/textColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line3" />
+                <TextView
+                    android:id="@+id/removeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/remove_account"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3" />
 
-            <ImageView
-                android:id="@+id/removeIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:rotation="45"
-                app:layout_constraintBottom_toTopOf="@+id/line4"
-                app:layout_constraintEnd_toStartOf="@+id/removeTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line3"
-                app:srcCompat="@drawable/ic_remove" />
+                <ImageView
+                    android:id="@+id/removeIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:rotation="45"
+                    app:layout_constraintBottom_toTopOf="@+id/line4"
+                    app:layout_constraintEnd_toStartOf="@+id/removeTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3"
+                    app:srcCompat="@drawable/ic_remove" />
 
-            <View
-                android:id="@+id/line3"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exportCode" />
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/removeTextView" />
 
-            <TextView
-                android:textSize="13sp"
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{myViewModel.reTimeString}"
-                app:layout_constraintBottom_toTopOf="@+id/line2"
-                app:layout_constraintEnd_toStartOf="@+id/textView5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/line1" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <!--        android:text="@{myViewModel.timeRemaining}"-->
-            <!--        android:progress="@{myViewModel.timeNumber}"-->
-            <ProgressBar
-                android:id="@+id/circle_progress"
-                style="?android:progressBarStyleHorizontal"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:max="30"
-                android:progress="@{myViewModel.reTimeNumber}"
-                android:background="@drawable/progress_circle_background"
-                android:progressDrawable="@drawable/progress_circle"
-                app:layout_constraintBottom_toBottomOf="@+id/time"
-                app:layout_constraintEnd_toEndOf="@+id/time"
-                app:layout_constraintStart_toStartOf="@+id/time"
-                app:layout_constraintTop_toTopOf="@+id/time" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

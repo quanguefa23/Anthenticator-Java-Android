@@ -130,7 +130,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
 
         ViewHolder(final View itemView) {
             super(itemView);
-            siteName = itemView.findViewById(R.id.siteName);
+            siteName = itemView.findViewById(R.id.siteNameLayout);
             accountName = itemView.findViewById(R.id.accountName);
             siteIcon = itemView.findViewById(R.id.siteIcon);
             container = itemView.findViewById(R.id.container);

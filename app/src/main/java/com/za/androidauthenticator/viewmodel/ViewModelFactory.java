@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.viewmodels;
+package com.za.androidauthenticator.viewmodel;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

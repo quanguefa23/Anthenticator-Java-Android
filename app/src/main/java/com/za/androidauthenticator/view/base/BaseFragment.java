@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.views.base;
+package com.za.androidauthenticator.view.base;
 
 import androidx.fragment.app.Fragment;
 

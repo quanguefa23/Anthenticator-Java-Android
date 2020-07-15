@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.views.activities;
+package com.za.androidauthenticator.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,37 +16,32 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.di.MyApplication;
-import com.za.androidauthenticator.viewmodels.AuthenticatorViewModel;
-import com.za.androidauthenticator.viewmodels.ViewModelFactory;
-import com.za.androidauthenticator.views.base.BaseActivity;
+import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
+import com.za.androidauthenticator.view.base.BaseActivity;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 public class AuthenticatorActivity extends BaseActivity {
 
-    @Inject
-    ViewModelFactory viewModelFactory;
-
     private AuthenticatorViewModel viewModel;
-    private ActivityAuthenticatorBinding binding; // view binding
+    private ActivityAuthenticatorBinding binding;
+
     private AuthCodeAdapter adapter;
     private boolean firstLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(bindingView());
 
-        // Make Dagger instantiate @Inject fields in AuthenticatorActivity
-        ((MyApplication) getApplicationContext()).appGraph.inject(this);
-        // Now viewModelFactory is available
-
+        // Create viewModel instance
         viewModel = new ViewModelProvider(this, viewModelFactory).get(AuthenticatorViewModel.class);
 
         // Test configuration change -> must not change hashcode of viewModel every rotation
         Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
+
+        // Binding viewModel variable to layout
+        binding.setMyViewModel(viewModel);
+        binding.setMyController(this);
 
         firstLoad = true;
         prepareRecyclerView();
@@ -58,26 +53,19 @@ public class AuthenticatorActivity extends BaseActivity {
     @Override
     public View bindingView() {
         binding = ActivityAuthenticatorBinding.inflate(getLayoutInflater());
+        binding.setLifecycleOwner(this);
         return binding.getRoot();
     }
 
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
-
-            if (list == null || list.isEmpty()) {
-                binding.emptyView.setVisibility(View.VISIBLE);
-            }
-            else {
-                // Hide empty view
-                binding.emptyView.setVisibility(View.INVISIBLE);
-                if (firstLoad) {
-                    firstLoad = false;
-                    // Animation
-                    LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(
-                            AuthenticatorActivity.this, R.anim.layout_animation_from_bottom);
-                    binding.recyclerView.setLayoutAnimation(animation);
-                }
+            if (firstLoad) {
+                firstLoad = false;
+                // Animation
+                LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(
+                        AuthenticatorActivity.this, R.anim.layout_animation_from_bottom);
+                binding.recyclerView.setLayoutAnimation(animation);
             }
         });
     }
@@ -103,5 +91,22 @@ public class AuthenticatorActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void startEnterKeyActivity() {
+        binding.motionLayout.setProgress(0);
+        Intent intent = new Intent(AuthenticatorActivity.this, EnterKeyActivity.class);
+        startActivity(intent);
+    }
+
+    public void startScanQrActivity() {
+        binding.motionLayout.setProgress(0);
+        Intent intent = new Intent(AuthenticatorActivity.this, ScanQrActivity.class);
+        startActivity(intent);
+    }
+
+    public void revertMotion() {
+        if (binding.motionLayout.getProgress() == 1)
+            binding.motionLayout.transitionToStart();
     }
 }

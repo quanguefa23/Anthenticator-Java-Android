@@ -5,7 +5,7 @@
     <color name="colorPrimaryDark">#87B750</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="textColor">#46523B</color>
-    <color name="colorMain">#DA1C48</color>
+    <color name="defaultTextView">#808080</color>
     <color name="orange">#F04E42</color>
     <color name="white">#fff</color>
     <color name="background">#EBF7DE</color>

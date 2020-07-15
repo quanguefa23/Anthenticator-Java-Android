@@ -4,8 +4,8 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
+        motion:constraintSetEnd="@+id/end"
         motion:duration="500">
         <OnClick motion:targetId="@+id/addButton"/>
     </Transition>
@@ -27,7 +27,7 @@
 
         <Constraint
             android:visibility="invisible"
-            android:id="@+id/frameLayout"
+            android:id="@+id/filter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -67,7 +67,7 @@
         </Constraint>
 
         <Constraint
-            android:id="@+id/frameLayout"
+            android:id="@+id/filter"
             android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

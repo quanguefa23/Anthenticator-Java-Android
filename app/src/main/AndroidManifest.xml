@@ -10,9 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".views.activities.DetailCodeActivity"></activity>
+        <activity android:name=".view.activities.ScanQrActivity"/>
+        <activity android:name=".view.activities.EnterKeyActivity"
+            android:theme="@style/EnterKeyTheme">
+
+        </activity>
+        <activity android:name=".view.activities.DetailCodeActivity">
+
+        </activity>
         <activity
-            android:name=".views.activities.AuthenticatorActivity"
+            android:name=".view.activities.AuthenticatorActivity"
             android:theme="@style/AuthenticatorTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

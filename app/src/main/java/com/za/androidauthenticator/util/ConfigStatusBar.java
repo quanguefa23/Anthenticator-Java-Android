@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.utils;
+package com.za.androidauthenticator.util;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;

@@ -1,10 +1,10 @@
-package com.za.androidauthenticator.viewmodels;
+package com.za.androidauthenticator.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.data.contract.SiteIconContract;
-import com.za.androidauthenticator.utils.calculator.CalculateCodeUtil;
+import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
 public class DetailCodeViewModel extends ViewModel {
 

@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.viewmodels;
+package com.za.androidauthenticator.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

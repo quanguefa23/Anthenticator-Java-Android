@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.utils;
+package com.za.androidauthenticator.util;
 
 
 import java.util.concurrent.Executors;

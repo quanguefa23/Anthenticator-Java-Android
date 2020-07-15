@@ -2,8 +2,7 @@ package com.za.androidauthenticator.di.graph;
 
 import com.za.androidauthenticator.di.module.NetworkModule;
 import com.za.androidauthenticator.di.module.ViewModelModule;
-import com.za.androidauthenticator.views.activities.AuthenticatorActivity;
-import com.za.androidauthenticator.views.activities.DetailCodeActivity;
+import com.za.androidauthenticator.view.base.BaseActivity;
 
 import javax.inject.Singleton;
 
@@ -13,7 +12,6 @@ import dagger.Component;
 @Singleton
 @Component(modules = {NetworkModule.class, ViewModelModule.class})
 public interface ApplicationGraph {
-    void inject(AuthenticatorActivity authenticatorActivity);
-    void inject(DetailCodeActivity detailCodeActivity);
+    void inject(BaseActivity baseActivity);
 }
 

@@ -23,4 +23,17 @@
     <string name="you_have_no_2fa_code_yet">You have no 2FA code yet</string>
     <string name="or_you_can_sign_in_via_google_account_to_sync_your_old_code">Or you can sign in via google account to sync your old code</string>
     <string name="copy_code_clipboard">Code copied to the clipboard</string>
+    <string name="enter_account_details">Enter account details</string>
+    <string name="account_name">Account name</string>
+    <string name="title">title</string>
+    <string name="back_button">back button</string>
+    <string name="your_key">Secret key</string>
+    <string name="site_name_eg_google">Site name (eg. Google)</string>
+    <string name="add">Add</string>
+    <string name="site_name">Site name</string>
+    <string name="google">Google</string>
+    <string name="other_site_name">Other site name</string>
+    <string name="site_icon">site icon</string>
+    <string name="export_this_2fa_code">Export this 2FA code</string>
+    <string name="others">Others</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.views.activities;
+package com.za.androidauthenticator.view.activities;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,29 +14,19 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.model.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.di.MyApplication;
-import com.za.androidauthenticator.viewmodels.DetailCodeViewModel;
-import com.za.androidauthenticator.viewmodels.ViewModelFactory;
-import com.za.androidauthenticator.views.base.BaseActivity;
-
-import javax.inject.Inject;
+import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
+import com.za.androidauthenticator.view.base.BaseActivity;
 
 public class DetailCodeActivity extends BaseActivity {
 
-    @Inject
-    ViewModelFactory viewModelFactory;
-
     private DetailCodeViewModel viewModel;
     private ActivityDetailCodeBinding binding;
+
     private AuthCode authCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(bindingView());
-
-        // Make Dagger instantiate @Inject fields in DetailCodeActivity
-        ((MyApplication) getApplicationContext()).appGraph.inject(this);
-        // Now viewModelFactory is available
 
         // Create viewModel instance
         viewModel = new ViewModelProvider(this, viewModelFactory).get(DetailCodeViewModel.class);
@@ -57,6 +47,13 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     @Override
+    public View bindingView() {
+        binding = ActivityDetailCodeBinding.inflate(getLayoutInflater());
+        binding.setLifecycleOwner(this);
+        return binding.getRoot();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         viewModel.stopCalculateCode();
@@ -74,13 +71,6 @@ public class DetailCodeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         viewModel.stopCalculateCode();
-    }
-
-    @Override
-    public View bindingView() {
-        binding = ActivityDetailCodeBinding.inflate(getLayoutInflater());
-        binding.setLifecycleOwner(this);
-        return binding.getRoot();
     }
 
     public void onCopyCodeToClipBoard(String code) {

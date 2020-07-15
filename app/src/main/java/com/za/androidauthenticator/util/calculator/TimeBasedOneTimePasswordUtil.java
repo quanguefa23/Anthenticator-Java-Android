@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.utils.calculator;
+package com.za.androidauthenticator.util.calculator;
 
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
