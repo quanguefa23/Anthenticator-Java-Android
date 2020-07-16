@@ -15,12 +15,12 @@ import java.util.List;
 public interface AuthCodeDao {
     /*** QUERY */
     @Query("SELECT * FROM auth_code")
-    public LiveData<List<AuthCode>> loadAllCodes();
+    LiveData<List<AuthCode>> loadAllCodes();
 
     /*** INSERT */
     @Insert(onConflict = OnConflictStrategy.REPLACE) // replace if conflict
-    public Long insertCode(AuthCode code); // return rowId for new user
+    Long insertCode(AuthCode code); // return rowId for new user
 
     @Insert
-    public List<Long> insertUsers(AuthCode... codes); // return list of new rowIds for the inserted items
+    List<Long> insertUsers(AuthCode... codes); // return list of new rowIds for the inserted items
 }
