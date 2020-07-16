@@ -24,15 +24,17 @@ public class CalculateCodeUtil {
     private List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks;
     private Timer timer;
 
-    public CalculateCodeUtil(List<String> keys, List<CalculateCodeUtil.OnUpdateTimeRemaining> updateTimeCallbacks,
-                               List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks) {
+    public CalculateCodeUtil(List<String> keys,
+                             List<CalculateCodeUtil.OnUpdateTimeRemaining> updateTimeCallbacks,
+                             List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks) {
         this.keys = keys;
         this.updateTimeCallbacks = updateTimeCallbacks;
         this.updateCodeCallbacks = updateCodeCallbacks;
         this.numberOfKeys = keys.size();
     }
 
-    public CalculateCodeUtil(String key, CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
+    public CalculateCodeUtil(String key,
+                             CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
                              CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
         this.keys = Collections.singletonList(key);
         this.updateTimeCallbacks = Collections.singletonList(updateTimeCallback);

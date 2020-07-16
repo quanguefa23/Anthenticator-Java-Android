@@ -14,19 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
+import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.di.MyApplication;
 import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
 import com.za.androidauthenticator.view.base.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticatorActivity extends BaseActivity {
 
     private AuthenticatorViewModel viewModel;
     private ActivityAuthenticatorBinding binding;
 
-    private AuthCodeAdapter adapter;
+    private final AuthCodeAdapter adapter = new AuthCodeAdapter();
     private boolean firstLoad;
 
     @Override
@@ -47,7 +49,6 @@ public class AuthenticatorActivity extends BaseActivity {
         prepareRecyclerView();
         setOnClickItem();
         setAdapterSubscribeUI();
-        viewModel.updateListCodes();
     }
 
     @Override
@@ -74,8 +75,6 @@ public class AuthenticatorActivity extends BaseActivity {
         binding.recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager  = new LinearLayoutManager(this);
         binding.recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new AuthCodeAdapter(this, R.layout.content_authcodes_row, new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
     }
 

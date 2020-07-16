@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.data.model;
+package com.za.androidauthenticator.data.entity;
 
 import java.util.List;
 

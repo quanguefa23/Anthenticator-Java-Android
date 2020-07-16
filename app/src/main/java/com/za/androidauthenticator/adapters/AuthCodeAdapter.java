@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.SiteIconContract;
-import com.za.androidauthenticator.data.model.AuthCode;
+import com.za.androidauthenticator.data.entity.AuthCode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,22 +25,14 @@ import java.util.List;
  */
 public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHolder> {
 
-    private int layout;
-    private List<AuthCode> listCodes;
-    private Context context;
-
-    public AuthCodeAdapter(Context context, int layout, List<AuthCode> listCodes) {
-        this.context = context;
-        this.layout = layout;
-        this.listCodes = listCodes;
-    }
+    private final List<AuthCode> listCodes = new ArrayList<>();
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        View contactView = inflater.inflate(layout, parent, false);
+        View contactView = inflater.inflate(R.layout.content_authcodes_row, parent, false);
         return new ViewHolder(contactView);
     }
 
@@ -48,13 +41,14 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         AuthCode authCode = listCodes.get(position);
 
         // Set text
-        holder.siteName.setText(authCode.getSiteName());
-        holder.accountName.setText(authCode.getAccountName());
+        holder.siteName.setText(authCode.siteName);
+        holder.accountName.setText(authCode.accountName);
 
         // Set site icon
-        holder.siteIcon.setImageResource(SiteIconContract.getIconId(authCode.getSiteName()));
+        holder.siteIcon.setImageResource(SiteIconContract.getIconId(authCode.siteName));
 
-        Animation ani = AnimationUtils.loadAnimation(context, R.anim.item_animation_scale);
+        Animation ani = AnimationUtils.loadAnimation(holder.itemView.getContext(),
+                R.anim.item_animation_scale);
         holder.container.startAnimation(ani);
     }
 

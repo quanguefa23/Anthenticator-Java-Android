@@ -1,5 +1,6 @@
 package com.za.androidauthenticator.view.activities;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.za.androidauthenticator.util.SetUIHideKeyboard;
 import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
 import com.za.androidauthenticator.view.base.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnterKeyActivity extends BaseActivity {
@@ -43,18 +45,12 @@ public class EnterKeyActivity extends BaseActivity {
         binding.setMyViewModel(viewModel);
         binding.setMyController(this);
 
+        setVisibilityOtherSiteLayout();
+        restoreSelectionDropDownMenu(savedInstanceState);
         configDropdownMenu();
     }
 
-    private void configDropdownMenu() {
-        List<String> items = ListSitesAvailable.getListSites();
-        items.add(getString(R.string.others));
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item, items);
-        ((AutoCompleteTextView) binding.siteNameLayout.getEditText()).setAdapter(adapter);
-
-        // Log.d(MyApplication.APP_TAG, adapter.getItem(0));
-
+    private void setVisibilityOtherSiteLayout() {
         binding.siteNameLayout.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -70,6 +66,27 @@ public class EnterKeyActivity extends BaseActivity {
                     binding.otherSiteLayout.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void restoreSelectionDropDownMenu(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            String siteName = savedInstanceState.getString("siteName");
+            if (siteName != null)
+                binding.siteNameLayout.getEditText().setText(siteName);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("siteName", binding.siteName.getText().toString());
+    }
+
+    private void configDropdownMenu() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item,
+                viewModel.getDataDropdownMenu());
+        binding.siteNameLayout.getEditText().setSaveEnabled(false);
+        ((AutoCompleteTextView) binding.siteNameLayout.getEditText()).setAdapter(adapter);
     }
 
     @Override

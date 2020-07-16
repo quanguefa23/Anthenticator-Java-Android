@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.za.androidauthenticator.R;
-import com.za.androidauthenticator.data.model.AuthCode;
+import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.di.MyApplication;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
@@ -41,8 +41,8 @@ public class DetailCodeActivity extends BaseActivity {
         // Update data
         authCode = (AuthCode) getIntent().getSerializableExtra("authCode");
         if (authCode != null) {
-            viewModel.updateInfoData(authCode.getSiteName(), authCode.getAccountName());
-            viewModel.updateCodeData(authCode.getKey());
+            viewModel.updateInfoData(authCode.siteName, authCode.accountName);
+            viewModel.updateCodeData(authCode.key);
         }
     }
 
@@ -63,7 +63,7 @@ public class DetailCodeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         if (authCode != null) {
-            viewModel.updateCodeData(authCode.getKey());
+            viewModel.updateCodeData(authCode.key);
         }
     }
 

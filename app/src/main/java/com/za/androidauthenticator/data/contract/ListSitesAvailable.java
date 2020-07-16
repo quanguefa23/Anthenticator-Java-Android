@@ -14,6 +14,6 @@ public class ListSitesAvailable {
     }
 
     public static List<String> getListSites() {
-        return new ArrayList<>(sites);
+        return sites;
     }
 }
