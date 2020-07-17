@@ -10,17 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.za.androidauthenticator.R;
-import com.za.androidauthenticator.data.contract.ListSitesAvailable;
 import com.za.androidauthenticator.databinding.ActivityEnterKeyBinding;
 import com.za.androidauthenticator.di.MyApplication;
 import com.za.androidauthenticator.util.SetUIHideKeyboard;
 import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
 import com.za.androidauthenticator.view.base.BaseActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EnterKeyActivity extends BaseActivity {
 
@@ -83,10 +80,38 @@ public class EnterKeyActivity extends BaseActivity {
     }
 
     private void configDropdownMenu() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.content_list_item,
                 viewModel.getDataDropdownMenu());
         binding.siteNameLayout.getEditText().setSaveEnabled(false);
         ((AutoCompleteTextView) binding.siteNameLayout.getEditText()).setAdapter(adapter);
+    }
+
+    public void insertNewCode() {
+        // get data from view
+        String key = binding.key.getText().toString();
+        String siteName = binding.siteName.getText().toString();
+        if (siteName.equals(getString(R.string.others)))
+            siteName = binding.otherSite.getText().toString();
+        String accountName = binding.accountName.getText().toString();
+
+        switch (viewModel.insertNewCode(key, siteName, accountName)) {
+            case EnterKeyViewModel.INSERT_SITE_NAME_ERROR: {
+                Toast.makeText(this, R.string.invalid_site_name_error, Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case EnterKeyViewModel.INSERT_ACCOUNT_NAME_ERROR: {
+                Toast.makeText(this, R.string.invalid_account_name_error, Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case EnterKeyViewModel.INSERT_KEY_ERROR: {
+                Toast.makeText(this, R.string.invalid_key_error, Toast.LENGTH_SHORT).show();
+                break;
+            }
+            default: {
+                Toast.makeText(this, R.string.enter_key_success, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 
     @Override

@@ -11,6 +11,7 @@ public class SiteIconContract {
     static {
         mapSiteNameWithIcon = new HashMap<>();
         mapSiteNameWithIcon.put("google", R.drawable.ic_google);
+        mapSiteNameWithIcon.put("microsoft", R.drawable.ic_microsoft);
         mapSiteNameWithIcon.put("facebook", R.drawable.ic_facebook);
         mapSiteNameWithIcon.put("twitter", R.drawable.ic_twitter);
     }

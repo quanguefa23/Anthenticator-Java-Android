@@ -80,6 +80,7 @@
                     app:layout_constraintStart_toStartOf="@+id/siteName" />
 
                 <ImageView
+                    android:onClick="@{() -> myController.editCodeInfo()}"
                     android:id="@+id/editButton"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -252,6 +253,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/exportCode" />
 
                 <TextView
+                    android:onClick="@{() -> myController.deleteCode()}"
                     android:id="@+id/removeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -265,6 +267,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/line3" />
 
                 <ImageView
+                    android:onClick="@{() -> myController.deleteCode()}"
                     android:id="@+id/removeIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"

@@ -9,6 +9,7 @@ public class ListSitesAvailable {
     static {
         sites = new ArrayList<>();
         sites.add("Google");
+        sites.add("Microsoft");
         sites.add("Facebook");
         sites.add("Twitter");
     }

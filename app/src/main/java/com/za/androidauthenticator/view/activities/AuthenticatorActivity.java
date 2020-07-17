@@ -61,6 +61,10 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
+
+            for (AuthCode code : list)
+                Log.d(MyApplication.APP_TAG, code.key + "");
+
             if (firstLoad) {
                 firstLoad = false;
                 // Animation

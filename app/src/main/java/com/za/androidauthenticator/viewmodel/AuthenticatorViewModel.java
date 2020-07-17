@@ -23,12 +23,4 @@ public class AuthenticatorViewModel extends ViewModel {
     public LiveData<List<AuthCode>> getListCodes() {
         return listCodes;
     }
-
-    public int insertNewCode(String key, String siteName, String accountName) {
-        // validation data
-
-        userRepository.getUserLocalDataSource().insertNewCode(key, siteName, accountName);
-
-        return 0; // code error
-    }
 }

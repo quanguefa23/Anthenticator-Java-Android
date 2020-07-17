@@ -10,7 +10,9 @@ import com.za.androidauthenticator.util.SingleTaskExecutor;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class UserLocalDataSource {
 
     AppDatabase appDatabase;
@@ -28,12 +30,13 @@ public class UserLocalDataSource {
     }
 
     public LiveData<List<AuthCode>> getListCodesLocal() {
-//        List<AuthCode> list = new ArrayList<>();
-//        String key = "DJ5W4EBMOXJMYCO3E3KCW4G6CL53VXQ6";
-//        // Dummy implement
-//        for (int i = 0; i < 5; i++) {
-//            list.add(new AuthCode(key, "Google", "nhqnhq" + i + "@gmail.com"));
-//        }
         return authCodeDao.loadAllCodes();
     }
+
+    public void deleteCode(AuthCode authCode) {
+        SingleTaskExecutor.queueRunnable(() -> authCodeDao.deleteCode(authCode));
+    }
 }
+
+
+// String key = "DJ5W4EBMOXJMYCO3E3KCW4G6CL53VXQ6";

@@ -1,8 +1,8 @@
 package com.za.androidauthenticator.data.roomdb;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -23,4 +23,8 @@ public interface AuthCodeDao {
 
     @Insert
     List<Long> insertUsers(AuthCode... codes); // return list of new rowIds for the inserted items
+
+    /*** DELETE */
+    @Delete
+    void deleteCode(AuthCode code);
 }

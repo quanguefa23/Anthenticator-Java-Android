@@ -21,7 +21,7 @@
     <string name="add_new_2fa_code_by_clicking">Add new 2FA code by clicking add (+) button at the right-bottom corner of screen</string>
     <string name="sign_in">Sign In</string>
     <string name="you_have_no_2fa_code_yet">You have no 2FA code yet</string>
-    <string name="or_you_can_sign_in_via_google_account_to_sync_your_old_code">Or you can sign in via google account to sync your old code</string>
+    <string name="or_you_can_sign_in_via_google_account_to_sync_your_old_code">Or you can sign in via google account to sync your old codes</string>
     <string name="copy_code_clipboard">Code copied to the clipboard</string>
     <string name="enter_account_details">Enter account details</string>
     <string name="account_name">Account name</string>
@@ -36,4 +36,12 @@
     <string name="site_icon">site icon</string>
     <string name="export_this_2fa_code">Export this 2FA code</string>
     <string name="others">Others</string>
+    <string name="invalid_site_name_error">Invalid site name</string>
+    <string name="invalid_account_name_error">Invalid account name</string>
+    <string name="invalid_key_error">Invalid key</string>
+    <string name="enter_key_success">Enter key successfully</string>
+    <string name="delete_code_success">Your code was removed</string>
+    <string name="remove_account_confirm">Remove account?</string>
+    <string name="warning_remove_account">After removing your account, you will not be able to use this device to verify your identity</string>
+    <string name="update">update</string>
 </resources>

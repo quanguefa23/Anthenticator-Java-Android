@@ -47,15 +47,15 @@ public class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(DetailCodeViewModel.class)
-    ViewModel detailCodeViewModel() {
-        return new DetailCodeViewModel();
+    ViewModel detailCodeViewModel(UserRepository userRepository) {
+        return new DetailCodeViewModel(userRepository);
     }
 
     @Provides
     @IntoMap
     @ViewModelKey(EnterKeyViewModel.class)
-    ViewModel enterKeyViewModel() {
-        return new EnterKeyViewModel();
+    ViewModel enterKeyViewModel(UserRepository userRepository) {
+        return new EnterKeyViewModel(userRepository);
     }
 
     @Provides

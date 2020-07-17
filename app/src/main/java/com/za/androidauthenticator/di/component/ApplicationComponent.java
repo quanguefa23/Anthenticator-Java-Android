@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.di.graph;
+package com.za.androidauthenticator.di.component;
 
 import com.za.androidauthenticator.di.module.DatabaseModule;
 import com.za.androidauthenticator.di.module.NetworkModule;
@@ -12,6 +12,6 @@ import dagger.Component;
 // Definition of the Application graph
 @Singleton
 @Component(modules = {DatabaseModule.class, NetworkModule.class, ViewModelModule.class})
-public interface ApplicationGraph {
+public interface ApplicationComponent {
     void inject(BaseActivity baseActivity);
 }

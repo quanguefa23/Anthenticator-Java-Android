@@ -63,6 +63,21 @@ public class TimeBasedOneTimePasswordUtil {
         return generateBase32Secret(16);
     }
 
+    public static boolean isValidKey(String key) {
+        for (int i = 0; i < key.length(); i++) {
+            char ch = key.charAt(i);
+
+            boolean check1 = ch >= 'a' && ch <= 'z';
+            boolean check2 = ch >= 'A' && ch <= 'Z';
+            boolean check3 = ch >= '2' && ch <= '7';
+
+            if (!check1 && !check2 && !check3)
+                return false;
+        }
+
+        return true;
+    }
+
     /**
      * Similar to {@link #generateBase32Secret()} but specifies a character length.
      */
