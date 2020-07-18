@@ -162,7 +162,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.3" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:background="@drawable/button_custom"

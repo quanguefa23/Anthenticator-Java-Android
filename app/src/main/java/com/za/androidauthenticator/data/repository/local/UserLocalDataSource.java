@@ -36,6 +36,10 @@ public class UserLocalDataSource {
     public void deleteCode(AuthCode authCode) {
         SingleTaskExecutor.queueRunnable(() -> authCodeDao.deleteCode(authCode));
     }
+
+    public void updateCode(AuthCode authCode) {
+        SingleTaskExecutor.queueRunnable(() -> authCodeDao.updateCode(authCode));
+    }
 }
 
 

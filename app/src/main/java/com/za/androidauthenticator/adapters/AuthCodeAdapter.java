@@ -93,12 +93,12 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+           return oldList.get(oldItemPosition).codeId == newList.get(newItemPosition).codeId;
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            return true;
+            return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.za.androidauthenticator.data.entity.AuthCode;
 
@@ -19,12 +20,16 @@ public interface AuthCodeDao {
 
     /*** INSERT */
     @Insert(onConflict = OnConflictStrategy.REPLACE) // replace if conflict
-    Long insertCode(AuthCode code); // return rowId for new user
+    void insertCode(AuthCode code); // return rowId for new user
 
     @Insert
-    List<Long> insertUsers(AuthCode... codes); // return list of new rowIds for the inserted items
+    void insertUsers(AuthCode... codes); // return list of new rowIds for the inserted items
 
     /*** DELETE */
     @Delete
     void deleteCode(AuthCode code);
+
+    /*** UPDATE */
+    @Update
+    void updateCode(AuthCode code);
 }

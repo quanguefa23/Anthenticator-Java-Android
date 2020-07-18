@@ -7,8 +7,13 @@ import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.UserRepository;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
+import com.za.androidauthenticator.util.calculator.TimeBasedOneTimePasswordUtil;
 
 public class DetailCodeViewModel extends ViewModel {
+
+    public static final int UPDATE_SUCCESS = 0;
+    public static final int UPDATE_SITE_NAME_ERROR = 1;
+    public static final int UPDATE_ACCOUNT_NAME_ERROR = 2;
 
     private final UserRepository userRepository;
     private CalculateCodeUtil calculateCodeUtil;
@@ -20,7 +25,6 @@ public class DetailCodeViewModel extends ViewModel {
     private MutableLiveData<String> siteName = new MutableLiveData<>();
     private MutableLiveData<String> accountName = new MutableLiveData<>();
     private MutableLiveData<Integer> siteIcon = new MutableLiveData<>();
-
 
     public DetailCodeViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -50,7 +54,7 @@ public class DetailCodeViewModel extends ViewModel {
         return codeString;
     }
 
-    public void updateInfoData() {
+    public void updateInfoDataToView() {
         if (authCode == null) return;
 
         this.siteName.setValue(authCode.siteName);
@@ -58,7 +62,7 @@ public class DetailCodeViewModel extends ViewModel {
         this.siteIcon.setValue(SiteIconContract.getIconId(authCode.siteName));
     }
 
-    public void updateCodeData() {
+    public void updateCodeDataToView() {
         if (authCode == null) return;
 
         // Register callback to update UI (time)
@@ -94,5 +98,20 @@ public class DetailCodeViewModel extends ViewModel {
 
     public void deleteThisAuthCode() {
         userRepository.getUserLocalDataSource().deleteCode(authCode);
+    }
+
+    public int updateCodeInfo(String siteName, String accountName) {
+        // validation data
+        if (siteName.isEmpty() || siteName.length() > 15)
+            return UPDATE_SITE_NAME_ERROR;
+        if (accountName.isEmpty() || accountName.length() > 30)
+            return UPDATE_ACCOUNT_NAME_ERROR;
+
+        authCode.siteName = siteName;
+        authCode.accountName = accountName;
+
+        updateInfoDataToView();
+        userRepository.getUserLocalDataSource().updateCode(authCode);
+        return UPDATE_SUCCESS;
     }
 }

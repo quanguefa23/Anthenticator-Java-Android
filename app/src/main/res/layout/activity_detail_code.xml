@@ -52,6 +52,7 @@
                     android:contentDescription="@string/site_icon" />
 
                 <TextView
+                    android:onClick="@{() -> myController.editCodeInfo()}"
                     android:id="@+id/siteName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
                     app:layout_constraintTop_toTopOf="@+id/siteIcon" />
 
                 <TextView
+                    android:onClick="@{() -> myController.editCodeInfo()}"
                     android:id="@+id/accountName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
