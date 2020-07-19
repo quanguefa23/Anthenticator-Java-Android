@@ -1,4 +1,6 @@
-# Main technology  
+# ZA Authenticator
+
+## Main technology  
 MVVM Architecture  
 LiveData  
 ViewModel  
@@ -6,7 +8,7 @@ Room
 Data Binding  
 Dagger2 with ViewModelFactory  
 
-# Extra technique  
+## Extra technique  
 RecyclerView with DiffUtil  
 Animation: Animation Resource, RecyclerView Animator  
 MotionLayout  
