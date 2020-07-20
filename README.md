@@ -7,6 +7,7 @@ ViewModel
 Room  
 Data Binding  
 Dagger2 with ViewModelFactory  
+ZXing framework
 
 ## Extra technique  
 RecyclerView with DiffUtil  
