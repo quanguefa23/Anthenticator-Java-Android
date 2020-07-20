@@ -8,6 +8,7 @@ Room
 Data Binding  
 Dagger2 with ViewModelFactory  
 ZXing framework (for QR Code functions)
+CameraX  
 
 ## Extra technique  
 RecyclerView with DiffUtil  
