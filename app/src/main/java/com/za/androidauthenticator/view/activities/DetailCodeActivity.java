@@ -19,7 +19,7 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.databinding.DialogUpdateCodeBinding;
-import com.za.androidauthenticator.di.MyApplication;
+import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
 
@@ -41,7 +41,7 @@ public class DetailCodeActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, viewModelFactory).get(DetailCodeViewModel.class);
 
         // Test configuration change -> must not change hashcode of viewModel every rotation
-        Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
+        Log.d(AuthenticatorApp.APP_TAG, viewModel.hashCode() + "");
 
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
@@ -93,7 +93,7 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     public void deleteCode() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this, R.style.AlertDialogTheme);
         alertDialog.setTitle(R.string.remove_account_confirm);
         alertDialog.setMessage(R.string.warning_remove_account);
 

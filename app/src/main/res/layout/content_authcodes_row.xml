@@ -26,32 +26,44 @@
             app:srcCompat="@drawable/ic_web" />
 
         <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintWidth_default="wrap"
             android:id="@+id/siteNameLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
             android:text="Google"
-            android:textSize="18sp"
             android:textColor="@color/textColor"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/accountName"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/accountName"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:textColor="@color/textColor"
             android:id="@+id/accountName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="nhqnhq1@gmail.com"
+            android:textColor="@color/textColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/siteIcon"
             app:layout_constraintTop_toBottomOf="@+id/siteNameLayout" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="15dp"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"

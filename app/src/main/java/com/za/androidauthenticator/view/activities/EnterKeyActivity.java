@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.databinding.ActivityEnterKeyBinding;
-import com.za.androidauthenticator.di.MyApplication;
+import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.util.SetUIHideKeyboard;
 import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
 import com.za.androidauthenticator.view.base.BaseActivity;
@@ -32,7 +32,7 @@ public class EnterKeyActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, viewModelFactory).get(EnterKeyViewModel.class);
 
         // Test configuration change -> must not change hashcode of viewModel every rotation
-        Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
+        Log.d(AuthenticatorApp.APP_TAG, viewModel.hashCode() + "");
 
         // hide keyboard when touch outside
         new SetUIHideKeyboard(EnterKeyActivity.this,

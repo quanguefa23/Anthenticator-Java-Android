@@ -1,5 +1,7 @@
 package com.za.androidauthenticator.util.calculator;
 
+import androidx.annotation.NonNull;
+
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -63,7 +65,10 @@ public class TimeBasedOneTimePasswordUtil {
         return generateBase32Secret(16);
     }
 
-    public static boolean isValidKey(String key) {
+    public static boolean isValidKey(@NonNull String key) {
+        if (key.length() != 16 && key.length() != 32)
+            return false;
+
         for (int i = 0; i < key.length(); i++) {
             char ch = key.charAt(i);
 

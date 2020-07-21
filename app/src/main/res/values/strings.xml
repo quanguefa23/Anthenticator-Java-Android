@@ -47,4 +47,7 @@
     <string name="cancel">cancel</string>
     <string name="edit_code_detail">Edit code detail</string>
     <string name="update_success_notification">Update successfully</string>
+    <string name="permisstion_denied">Permissions not granted by the user</string>
+    <string name="scan_qr_success">Add key via QR code successfully</string>
+    <string name="invalid_qr_code">Invalid QR code</string>
 </resources>

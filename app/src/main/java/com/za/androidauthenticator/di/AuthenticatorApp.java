@@ -6,16 +6,16 @@ import com.za.androidauthenticator.di.component.ApplicationComponent;
 import com.za.androidauthenticator.di.component.DaggerApplicationComponent;
 
 // appGraph lives in the Application class to share its lifecycle
-public class MyApplication extends Application {
+public class AuthenticatorApp extends Application {
 
     public static final String APP_TAG = "QUANG";
 
     // Reference to the application graph that is used across the whole app
     public ApplicationComponent appGraph = DaggerApplicationComponent.create();
 
-    private static MyApplication instance;
+    private static AuthenticatorApp instance;
 
-    public static synchronized MyApplication getInstance() {
+    public static synchronized AuthenticatorApp getInstance() {
         return instance;
     }
 

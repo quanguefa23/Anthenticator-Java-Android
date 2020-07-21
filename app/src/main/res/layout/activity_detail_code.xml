@@ -51,20 +51,27 @@
                     android:src="@{myViewModel.siteIcon == null ? @drawable/ic_web : context.getDrawable(myViewModel.siteIcon)}"
                     android:contentDescription="@string/site_icon" />
 
-                <TextView
-                    android:onClick="@{() -> myController.editCodeInfo()}"
-                    android:id="@+id/siteName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@{myViewModel.siteName}"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/siteIcon"
-                    app:layout_constraintTop_toTopOf="@+id/siteIcon" />
+            <TextView
+                android:id="@+id/siteName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="48dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:onClick="@{() -> myController.editCodeInfo()}"
+                android:text="@{myViewModel.siteName}"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/siteIcon"
+                app:layout_constraintTop_toTopOf="@+id/siteIcon"
+                app:layout_constraintWidth_default="wrap" />
 
                 <TextView
+                    app:layout_constraintWidth_default="wrap"
                     android:onClick="@{() -> myController.editCodeInfo()}"
                     android:id="@+id/accountName"
                     android:layout_width="0dp"

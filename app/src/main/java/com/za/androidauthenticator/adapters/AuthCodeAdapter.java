@@ -47,6 +47,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         // Set site icon
         holder.siteIcon.setImageResource(SiteIconContract.getIconId(authCode.siteName));
 
+        // animation
         Animation ani = AnimationUtils.loadAnimation(holder.itemView.getContext(),
                 R.anim.item_animation_scale);
         holder.container.startAnimation(ani);

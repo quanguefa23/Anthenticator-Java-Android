@@ -16,12 +16,9 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
-import com.za.androidauthenticator.di.MyApplication;
-import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
+import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.view.base.BaseActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
 
 public class AuthenticatorActivity extends BaseActivity {
 
@@ -39,7 +36,7 @@ public class AuthenticatorActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, viewModelFactory).get(AuthenticatorViewModel.class);
 
         // Test configuration change -> must not change hashcode of viewModel every rotation
-        Log.d(MyApplication.APP_TAG, viewModel.hashCode() + "");
+        Log.d(AuthenticatorApp.APP_TAG, viewModel.hashCode() + "");
 
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
@@ -61,10 +58,6 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
-
-//            for (AuthCode code : list)
-//                Log.d(MyApplication.APP_TAG, code.key + "");
-
             if (firstLoad) {
                 firstLoad = false;
                 // Animation

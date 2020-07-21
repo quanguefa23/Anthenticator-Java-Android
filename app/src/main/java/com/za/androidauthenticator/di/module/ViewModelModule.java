@@ -61,7 +61,7 @@ public class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(ScanQrViewModel.class)
-    ViewModel scanQrViewModel() {
-        return new ScanQrViewModel();
+    ViewModel scanQrViewModel(UserRepository userRepository) {
+        return new ScanQrViewModel(userRepository);
     }
 }
