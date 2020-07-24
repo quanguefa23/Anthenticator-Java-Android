@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,9 +40,6 @@ public class DetailCodeActivity extends BaseActivity {
 
         // Create viewModel instance
         viewModel = new ViewModelProvider(this, viewModelFactory).get(DetailCodeViewModel.class);
-
-        // Test configuration change -> must not change hashcode of viewModel every rotation
-        Log.d(AuthenticatorApp.APP_TAG, viewModel.hashCode() + "");
 
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
@@ -107,7 +105,6 @@ public class DetailCodeActivity extends BaseActivity {
         alertDialog.show();
     }
 
-
     public void editCodeInfo() {
         if (dialog == null) {
             // create view binding instance
@@ -153,5 +150,20 @@ public class DetailCodeActivity extends BaseActivity {
                 dialog.cancel();
             }
         }
+    }
+
+    public void exportCode() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this, R.style.AlertDialogTheme);
+        alertDialog.setTitle(R.string.export_account);
+        alertDialog.setMessage(R.string.export_code_warning);
+
+        alertDialog.setPositiveButton("Export account", (dialogInterface, i) -> {
+            Intent intent = new Intent(DetailCodeActivity.this, ExportCodeActivity.class);
+            intent.putExtra("data", viewModel.exportCodeToString());
+            startActivity(intent);
+        });
+        alertDialog.setNegativeButton("Cancel", null);
+
+        alertDialog.show();
     }
 }

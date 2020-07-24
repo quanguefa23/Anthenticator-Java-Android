@@ -7,6 +7,7 @@ import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
 import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
 import com.za.androidauthenticator.viewmodel.ScanQrViewModel;
+import com.za.androidauthenticator.viewmodel.ExportCodeViewModel;
 import com.za.androidauthenticator.viewmodel.ViewModelFactory;
 
 import java.lang.annotation.ElementType;
@@ -63,5 +64,12 @@ public class ViewModelModule {
     @ViewModelKey(ScanQrViewModel.class)
     ViewModel scanQrViewModel(UserRepository userRepository) {
         return new ScanQrViewModel(userRepository);
+    }
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(ExportCodeViewModel.class)
+    ViewModel exportCodeViewModel() {
+        return new ExportCodeViewModel();
     }
 }

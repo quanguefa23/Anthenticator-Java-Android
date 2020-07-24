@@ -114,4 +114,16 @@ public class DetailCodeViewModel extends ViewModel {
         userRepository.getUserLocalDataSource().updateCode(authCode);
         return UPDATE_SUCCESS;
     }
+
+    public String exportCodeToString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("otpauth://totp/");
+        stringBuilder.append(authCode.accountName).append("?");
+        stringBuilder.append("secret=").append(authCode.key);
+
+        if (!authCode.siteName.equals("Unknown"))
+            stringBuilder.append("&issuer=").append(authCode.siteName);
+
+        return stringBuilder.toString();
+    }
 }

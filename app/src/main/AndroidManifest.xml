@@ -14,14 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".view.activities.ScanQrActivity"/>
-        <activity android:name=".view.activities.EnterKeyActivity"
-            android:theme="@style/EnterKeyTheme">
 
-        </activity>
-        <activity android:name=".view.activities.DetailCodeActivity">
+        <activity android:name=".view.activities.ExportCodeActivity"/>
 
-        </activity>
+        <activity android:name=".view.activities.ScanQrActivity" />
+
+        <activity
+            android:name=".view.activities.EnterKeyActivity"
+            android:theme="@style/EnterKeyTheme" />
+        <activity android:name=".view.activities.DetailCodeActivity"
+            android:theme="@style/DetailCodeTheme"/>
         <activity
             android:name=".view.activities.AuthenticatorActivity"
             android:theme="@style/AuthenticatorTheme">

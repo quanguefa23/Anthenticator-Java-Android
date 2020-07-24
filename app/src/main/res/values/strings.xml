@@ -50,4 +50,9 @@
     <string name="permisstion_denied">Permissions not granted by the user</string>
     <string name="scan_qr_success">Add key via QR code successfully</string>
     <string name="invalid_qr_code">Invalid QR code</string>
+    <string name="export_account">Export account?</string>
+    <string name="export_code_warning">Do you want to export your account to QR Code</string>
+    <string name="scan_this_qr_code">Scan this QR code</string>
+    <string name="download_any_authenticator_app">Download any authenticator app on your new device. Within the app, scan this QR code.</string>
+    <string name="done">done</string>
 </resources>

@@ -6,16 +6,31 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.ScanQrViewModel" />
+            type="com.za.androidauthenticator.viewmodel.ExportCodeViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.ScanQrActivity" />
+            type="com.za.androidauthenticator.view.activities.ExportCodeActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.za.androidauthenticator.view.activities.ScanQrActivity">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/download_any_authenticator_app"
+            android:textColor="@color/textColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
         <FrameLayout
             android:id="@+id/appBarLayout"
@@ -47,20 +62,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@string/scan_a_qr_code"
+            android:text="@string/scan_this_qr_code"
             app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintStart_toEndOf="@+id/backButton"
             app:layout_constraintTop_toTopOf="@+id/backButton" />
 
-        <FrameLayout
-            android:id="@+id/contentCamera"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/contentQrCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/background_qr_code"
+            android:padding="4dp"
+            android:src="@drawable/ic_launcher_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
-        </FrameLayout>
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <Button
+            android:onClick="@{() -> myController.onBackPressed()}"
+            android:id="@+id/signInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_custom"
+            android:text="@string/done"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contentQrCode" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
