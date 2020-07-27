@@ -1,6 +1,7 @@
 package com.za.androidauthenticator.data.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -17,6 +18,12 @@ public class AuthCode implements Serializable {
     public String siteName;
 
     public String accountName;
+
+    @Ignore
+    public int reTime = 30;
+
+    @Ignore
+    public String currentCode = "000 000";
 
     public AuthCode(String key, String siteName, String accountName) {
         this.key = key;

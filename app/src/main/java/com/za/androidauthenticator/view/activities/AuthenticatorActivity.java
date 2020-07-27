@@ -2,11 +2,13 @@ package com.za.androidauthenticator.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Chronometer;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,6 +60,8 @@ public class AuthenticatorActivity extends BaseActivity {
     private void setAdapterSubscribeUI() {
         viewModel.getListCodes().observe(this, list -> {
             adapter.updateDataAndNotify(list);
+            viewModel.updateDataCodeAllRows(adapter.getListCodes());
+
             if (firstLoad) {
                 firstLoad = false;
                 // Animation
@@ -66,6 +70,18 @@ public class AuthenticatorActivity extends BaseActivity {
                 binding.recyclerView.setLayoutAnimation(animation);
             }
         });
+
+        viewModel.getPosUpdateTime().observe(this, pos ->
+                adapter.notifyItemChanged(pos, AuthCodeAdapter.PAYLOAD_TIME));
+
+        viewModel.getPosUpdateCode().observe(this, pos ->
+                adapter.notifyItemChanged(pos, AuthCodeAdapter.PAYLOAD_CODE));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.stopCalculateCode();
     }
 
     private void prepareRecyclerView() {

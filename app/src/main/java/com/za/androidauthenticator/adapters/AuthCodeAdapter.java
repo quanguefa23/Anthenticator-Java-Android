@@ -1,11 +1,14 @@
 package com.za.androidauthenticator.adapters;
 
 import android.content.Context;
+import android.database.Observable;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +28,9 @@ import java.util.List;
  */
 public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHolder> {
 
+    public static final String PAYLOAD_TIME = "PAYLOAD_TIME";
+    public static final String PAYLOAD_CODE = "PAYLOAD_CODE";
+
     private final List<AuthCode> listCodes = new ArrayList<>();
 
     @NonNull
@@ -37,15 +43,34 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
     }
 
     @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            AuthCode item = listCodes.get(position);
+            for (Object payload : payloads) {
+                if (PAYLOAD_TIME.equals(payload)) {
+                    // in this case only time will be updated
+                    holder.time.setText(Integer.toString(item.reTime));
+                } else if (PAYLOAD_CODE.equals(payload)) {
+                    // only code will be updated
+                    holder.code.setText(item.currentCode);
+                }
+            }
+        } else {
+            // in this case regular onBindViewHolder will be called
+            super.onBindViewHolder(holder, position, payloads);
+        }
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        AuthCode authCode = listCodes.get(position);
+        AuthCode item = listCodes.get(position);
 
         // Set text
-        holder.siteName.setText(authCode.siteName);
-        holder.accountName.setText(authCode.accountName);
+        holder.siteName.setText(item.siteName);
+        holder.accountName.setText(item.accountName);
 
         // Set site icon
-        holder.siteIcon.setImageResource(SiteIconContract.getIconId(authCode.siteName));
+        holder.siteIcon.setImageResource(SiteIconContract.getIconId(item.siteName));
 
         // animation
         Animation ani = AnimationUtils.loadAnimation(holder.itemView.getContext(),
@@ -122,6 +147,8 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         TextView accountName;
         ImageView siteIcon;
         View container;
+        TextView time;
+        TextView code;
 
         ViewHolder(final View itemView) {
             super(itemView);
@@ -129,6 +156,8 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
             accountName = itemView.findViewById(R.id.accountName);
             siteIcon = itemView.findViewById(R.id.siteIcon);
             container = itemView.findViewById(R.id.container);
+            time = itemView.findViewById(R.id.time);
+            code = itemView.findViewById(R.id.code);
 
             // Setup the click listener
             itemView.setOnClickListener(v -> {

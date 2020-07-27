@@ -1,78 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    app:cardCornerRadius="50dp"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="20dp"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/background_card_view_custom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_card_view_custom">
 
         <ImageView
             android:id="@+id/siteIcon"
             android:layout_width="50dp"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_web" />
 
         <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:layout_constraintWidth_default="wrap"
             android:id="@+id/siteNameLayout"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="24dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Google"
             android:textColor="@color/textColor"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/accountName"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/accountName"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/siteIcon"
+            app:layout_constraintTop_toTopOf="@+id/siteIcon"
+            app:layout_constrainedWidth="true" />
 
         <TextView
             android:id="@+id/accountName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="nhqnhq1@gmail.com"
             android:textColor="@color/textColor"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/siteIcon"
+            app:layout_constraintStart_toStartOf="@+id/siteNameLayout"
             app:layout_constraintTop_toBottomOf="@+id/siteNameLayout" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="15dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_next" />
+
+        <TextView
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_code_custom"
+            android:text="034 242"
+            android:textColor="@color/green"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/accountName"
+            app:layout_constraintTop_toBottomOf="@+id/accountName" />
+
+        <TextView
+            android:id="@+id/time"
+            android:text="15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/code"
+            app:layout_constraintEnd_toEndOf="@+id/siteIcon"
+            app:layout_constraintStart_toStartOf="@+id/siteIcon"
+            app:layout_constraintTop_toTopOf="@+id/code" />
+        <ProgressBar
+            android:id="@+id/circle_progress"
+            style="?android:progressBarStyleHorizontal"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/progress_circle_background"
+            android:max="30"
+            android:progress="15"
+            android:progressDrawable="@drawable/progress_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/time"
+            app:layout_constraintEnd_toEndOf="@+id/time"
+            app:layout_constraintStart_toStartOf="@+id/time"
+            app:layout_constraintTop_toTopOf="@+id/time" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
