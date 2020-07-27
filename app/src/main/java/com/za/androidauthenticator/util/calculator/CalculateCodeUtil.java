@@ -20,15 +20,15 @@ public class CalculateCodeUtil {
 
     private int numberOfKeys;
     private List<String> keys;
-    private List<CalculateCodeUtil.OnUpdateTimeRemaining> updateTimeCallbacks;
+    private CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback;
     private List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks;
     private Timer timer;
 
     public CalculateCodeUtil(List<String> keys,
-                             List<CalculateCodeUtil.OnUpdateTimeRemaining> updateTimeCallbacks,
+                             CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
                              List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks) {
         this.keys = keys;
-        this.updateTimeCallbacks = updateTimeCallbacks;
+        this.updateTimeCallback = updateTimeCallback;
         this.updateCodeCallbacks = updateCodeCallbacks;
         this.numberOfKeys = keys.size();
     }
@@ -37,7 +37,7 @@ public class CalculateCodeUtil {
                              CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
                              CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
         this.keys = Collections.singletonList(key);
-        this.updateTimeCallbacks = Collections.singletonList(updateTimeCallback);
+        this.updateTimeCallback = updateTimeCallback;
         this.updateCodeCallbacks = Collections.singletonList(updateCodeCallback);
         this.numberOfKeys = 1;
     }
@@ -52,8 +52,7 @@ public class CalculateCodeUtil {
         int rTimeFirstLoad = calculateRemainingTime();
 
         // Update UI
-        for (CalculateCodeUtil.OnUpdateTimeRemaining callback : updateTimeCallbacks)
-            callback.onUpdateTimeRemaining(rTimeFirstLoad);
+        updateTimeCallback.onUpdateTimeRemaining(rTimeFirstLoad);
 
         calculateCodeAndUpdateUI();
 
@@ -80,8 +79,7 @@ public class CalculateCodeUtil {
                 rTime = 30;
 
             // Update UI
-            for (CalculateCodeUtil.OnUpdateTimeRemaining callback : updateTimeCallbacks)
-                callback.onUpdateTimeRemaining(rTime);
+            updateTimeCallback.onUpdateTimeRemaining(rTime);
 
             if (rTime == 30) {
                 calculateCodeAndUpdateUI();

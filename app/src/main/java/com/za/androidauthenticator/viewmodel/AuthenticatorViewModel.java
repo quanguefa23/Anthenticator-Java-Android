@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.za.androidauthenticator.adapters.AuthCodeAdapter;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.UserRepository;
-import com.za.androidauthenticator.util.SingleTaskExecutor;
 import com.za.androidauthenticator.util.StringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
@@ -18,8 +16,8 @@ public class AuthenticatorViewModel extends ViewModel {
 
     private final UserRepository userRepository;
     private LiveData<List<AuthCode>> listCodes;
-    MutableLiveData<Integer> posUpdateTime = new MutableLiveData<>();
-    MutableLiveData<Integer> posUpdateCode = new MutableLiveData<>();
+    MutableLiveData<Boolean> triggerUpdateTime = new MutableLiveData<>();
+    MutableLiveData<Integer> triggerUpdateCode = new MutableLiveData<>();
     private CalculateCodeUtil calculateCodeUtil;
 
     public AuthenticatorViewModel(UserRepository userRepository) {
@@ -31,16 +29,22 @@ public class AuthenticatorViewModel extends ViewModel {
         return listCodes;
     }
 
-    public MutableLiveData<Integer> getPosUpdateTime() {
-        return posUpdateTime;
+    public MutableLiveData<Boolean> getTriggerUpdateTime() {
+        return triggerUpdateTime;
     }
 
-    public MutableLiveData<Integer> getPosUpdateCode() {
-        return posUpdateCode;
+    public MutableLiveData<Integer> getTriggerUpdateCode() {
+        return triggerUpdateCode;
     }
 
     public void updateDataCodeAllRows(List<AuthCode> listCodes) {
-        List<CalculateCodeUtil.OnUpdateTimeRemaining> updateTimeCallbacks = new ArrayList<>();
+        CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback = time -> {
+            for (AuthCode item : listCodes) {
+                item.reTime = time;
+            }
+            triggerUpdateTime.postValue(true);
+        };
+
         List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks = new ArrayList<>();
         List<String> keys = new ArrayList<>();
 
@@ -48,20 +52,15 @@ public class AuthenticatorViewModel extends ViewModel {
             final int pos = i;
             AuthCode item = listCodes.get(pos);
 
-            updateTimeCallbacks.add(time -> {
-                item.reTime = time;
-                posUpdateTime.postValue(pos);
-            });
-
             updateCodeCallbacks.add(code -> {
                 item.currentCode = StringUtil.formatCodeToString(code);
-                posUpdateCode.postValue(pos);
+                triggerUpdateCode.postValue(pos);
             });
 
             keys.add(item.key);
         }
 
-        calculateCodeUtil = new CalculateCodeUtil(keys, updateTimeCallbacks, updateCodeCallbacks);
+        calculateCodeUtil = new CalculateCodeUtil(keys, updateTimeCallback, updateCodeCallbacks);
         calculateCodeUtil.startCalculate();
     }
 

@@ -50,7 +50,6 @@ public class DetailCodeActivity extends BaseActivity {
         if (authCode != null) {
             viewModel.setAuthCode(authCode);
             viewModel.updateInfoDataToView();
-            viewModel.updateCodeDataToView();
         }
     }
 
@@ -62,23 +61,19 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        Log.d(AuthenticatorApp.APP_TAG, "stop");
+        super.onStop();
         viewModel.stopCalculateCode();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        Log.d(AuthenticatorApp.APP_TAG, "start");
+        super.onStart();
         if (authCode != null) {
             viewModel.updateCodeDataToView();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewModel.stopCalculateCode();
     }
 
     public void onCopyCodeToClipBoard(String code) {

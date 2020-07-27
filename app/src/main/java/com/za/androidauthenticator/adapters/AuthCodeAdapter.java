@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
             for (Object payload : payloads) {
                 if (PAYLOAD_TIME.equals(payload)) {
                     // in this case only time will be updated
+                    holder.progress.setProgress(item.reTime);
                     holder.time.setText(Integer.toString(item.reTime));
                 } else if (PAYLOAD_CODE.equals(payload)) {
                     // only code will be updated
@@ -72,10 +74,12 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         // Set site icon
         holder.siteIcon.setImageResource(SiteIconContract.getIconId(item.siteName));
 
-        // animation
-        Animation ani = AnimationUtils.loadAnimation(holder.itemView.getContext(),
-                R.anim.item_animation_scale);
-        holder.container.startAnimation(ani);
+        // Set remaining time
+        holder.progress.setProgress(item.reTime);
+        holder.time.setText(Integer.toString(item.reTime));
+
+        // Set code
+        holder.code.setText(item.currentCode);
     }
 
     @Override
@@ -149,6 +153,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         View container;
         TextView time;
         TextView code;
+        ProgressBar progress;
 
         ViewHolder(final View itemView) {
             super(itemView);
@@ -158,6 +163,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
             container = itemView.findViewById(R.id.container);
             time = itemView.findViewById(R.id.time);
             code = itemView.findViewById(R.id.code);
+            progress = itemView.findViewById(R.id.progress);
 
             // Setup the click listener
             itemView.setOnClickListener(v -> {

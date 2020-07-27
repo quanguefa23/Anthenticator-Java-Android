@@ -14,8 +14,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ScanQrViewModel extends ViewModel {
 
-    private final String VALID_URL_PREFIX = "otpauth://totp/";
-
     public static final int INSERT_SUCCESS = 0;
     public static final int INSERT_INVALID_URL_ERROR = 1;
     public static final int INSERT_KEY_ERROR = 2;
@@ -89,7 +87,7 @@ public class ScanQrViewModel extends ViewModel {
     private boolean isValidUri(String rawString) {
         if (rawString.length() > 15) {
             String sub = rawString.substring(0, 15);
-            return sub.equals(VALID_URL_PREFIX);
+            return sub.equals("otpauth://totp/");
         }
         return false;
     }
