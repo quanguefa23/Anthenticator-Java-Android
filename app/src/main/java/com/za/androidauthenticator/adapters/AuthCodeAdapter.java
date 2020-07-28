@@ -1,14 +1,9 @@
 package com.za.androidauthenticator.adapters;
 
 import android.content.Context;
-import android.database.Observable;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
-import com.za.androidauthenticator.util.CopyToClipBoard;
+import com.za.androidauthenticator.util.ClipBoardUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +193,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
                 String codeString = ((TextView) view).getText().toString();
                 Context context = itemView.getContext();
 
-                if (CopyToClipBoard.copyStringToClipBoard("2fa",
+                if (ClipBoardUtil.copyStringToClipBoard("2fa",
                         codeString.substring(0, 3) + codeString.substring(4), context))
                     Toast.makeText(context, R.string.copy_code_clipboard, Toast.LENGTH_SHORT).show();
             });

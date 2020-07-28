@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.data.repository.UserRepository;
-import com.za.androidauthenticator.util.calculator.TimeBasedOneTimePasswordUtil;
+import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -31,7 +31,7 @@ public class ScanQrViewModel extends ViewModel {
         Uri uri = Uri.parse(rawString);
 
         String key = uri.getQueryParameter("secret");
-        if (key == null || !TimeBasedOneTimePasswordUtil.isValidKey(key))
+        if (key == null || !TimeBasedOTPUtil.isValidKey(key))
             return INSERT_KEY_ERROR;
 
         String siteName = getSiteName(uri);

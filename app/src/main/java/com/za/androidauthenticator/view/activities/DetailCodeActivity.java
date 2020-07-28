@@ -1,9 +1,6 @@
 package com.za.androidauthenticator.view.activities;
 
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,7 +18,7 @@ import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.databinding.DialogUpdateCodeBinding;
 import com.za.androidauthenticator.di.AuthenticatorApp;
-import com.za.androidauthenticator.util.CopyToClipBoard;
+import com.za.androidauthenticator.util.ClipBoardUtil;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
 
@@ -79,7 +76,7 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     public void onCopyCodeToClipBoard(String code) {
-        if (CopyToClipBoard.copyStringToClipBoard("2fa",
+        if (ClipBoardUtil.copyStringToClipBoard("2fa",
                 code.substring(0, 3) + code.substring(4), this))
             Toast.makeText(this, R.string.copy_code_clipboard, Toast.LENGTH_SHORT).show();
     }

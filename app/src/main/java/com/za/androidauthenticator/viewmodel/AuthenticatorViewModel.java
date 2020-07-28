@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.UserRepository;
-import com.za.androidauthenticator.util.StringUtil;
+import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class AuthenticatorViewModel extends ViewModel {
 
         CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes -> {
             for (int i = 0; i < listCodes.size(); i++)
-                listCodes.get(i).currentCode = StringUtil.formatCodeToString(codes.get(i));
+                listCodes.get(i).currentCode = FormatStringUtil.formatCodeToString(codes.get(i));
             triggerUpdateCode.postValue(true);
         };
 

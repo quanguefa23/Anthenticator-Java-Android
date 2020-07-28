@@ -7,7 +7,7 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.ListSitesAvailable;
 import com.za.androidauthenticator.data.repository.UserRepository;
 import com.za.androidauthenticator.di.AuthenticatorApp;
-import com.za.androidauthenticator.util.calculator.TimeBasedOneTimePasswordUtil;
+import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class EnterKeyViewModel extends ViewModel {
             return INSERT_SITE_NAME_ERROR;
         if (accountName.length() > 30)
             return INSERT_ACCOUNT_NAME_ERROR;
-        if (!TimeBasedOneTimePasswordUtil.isValidKey(key))
+        if (!TimeBasedOTPUtil.isValidKey(key))
             return INSERT_KEY_ERROR;
 
         userRepository.getUserLocalDataSource().insertNewCode(key, siteName, accountName);

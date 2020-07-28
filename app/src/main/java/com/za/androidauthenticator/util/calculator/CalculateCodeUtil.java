@@ -101,7 +101,7 @@ public class CalculateCodeUtil {
             // Calculate code via key and system time
             int tempCode = 0;
             try {
-                tempCode = TimeBasedOneTimePasswordUtil.generateNumber(key,
+                tempCode = TimeBasedOTPUtil.generateNumber(key,
                         System.currentTimeMillis(), DEFAULT_TIME_STEP_SECONDS);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();

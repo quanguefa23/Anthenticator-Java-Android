@@ -1,6 +1,6 @@
 package com.za.androidauthenticator.util;
 
-public class StringUtil {
+public class FormatStringUtil {
     public static String formatCodeToString(int tempCode) {
         String res = Integer.toString(tempCode);
         while (res.length() < 6) {

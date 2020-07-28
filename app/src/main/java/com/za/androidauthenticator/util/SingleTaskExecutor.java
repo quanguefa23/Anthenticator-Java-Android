@@ -10,8 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class SingleTaskExecutor {
     private static ScheduledExecutorService mExecutor;
 
-    private SingleTaskExecutor() {
-    }
+    private SingleTaskExecutor() { }
 
     static {
         mExecutor = Executors.newSingleThreadScheduledExecutor();

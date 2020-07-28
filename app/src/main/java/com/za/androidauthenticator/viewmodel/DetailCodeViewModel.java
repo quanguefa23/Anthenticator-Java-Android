@@ -6,9 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.UserRepository;
-import com.za.androidauthenticator.util.StringUtil;
+import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
-import com.za.androidauthenticator.util.calculator.TimeBasedOneTimePasswordUtil;
 
 public class DetailCodeViewModel extends ViewModel {
 
@@ -74,7 +73,7 @@ public class DetailCodeViewModel extends ViewModel {
 
         // Register callback to update UI (code)
         CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes ->
-                this.codeString.postValue(StringUtil.formatCodeToString(codes.get(0)));
+                this.codeString.postValue(FormatStringUtil.formatCodeToString(codes.get(0)));
 
         calculateCodeUtil = new CalculateCodeUtil(authCode.key, updateTimeCallback, updateCodeCallback);
         calculateCodeUtil.startCalculate();
