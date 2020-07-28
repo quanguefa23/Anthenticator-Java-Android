@@ -73,8 +73,8 @@ public class DetailCodeViewModel extends ViewModel {
         };
 
         // Register callback to update UI (code)
-        CalculateCodeUtil.OnUpdateCode updateCodeCallback = code ->
-                this.codeString.postValue(StringUtil.formatCodeToString(code));
+        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes ->
+                this.codeString.postValue(StringUtil.formatCodeToString(codes.get(0)));
 
         calculateCodeUtil = new CalculateCodeUtil(authCode.key, updateTimeCallback, updateCodeCallback);
         calculateCodeUtil.startCalculate();

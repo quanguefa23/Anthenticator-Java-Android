@@ -17,7 +17,7 @@ public class AuthenticatorViewModel extends ViewModel {
     private final UserRepository userRepository;
     private LiveData<List<AuthCode>> listCodes;
     MutableLiveData<Boolean> triggerUpdateTime = new MutableLiveData<>();
-    MutableLiveData<Integer> triggerUpdateCode = new MutableLiveData<>();
+    MutableLiveData<Boolean> triggerUpdateCode = new MutableLiveData<>();
     private CalculateCodeUtil calculateCodeUtil;
 
     public AuthenticatorViewModel(UserRepository userRepository) {
@@ -33,34 +33,28 @@ public class AuthenticatorViewModel extends ViewModel {
         return triggerUpdateTime;
     }
 
-    public MutableLiveData<Integer> getTriggerUpdateCode() {
+    public MutableLiveData<Boolean> getTriggerUpdateCode() {
         return triggerUpdateCode;
     }
 
     public void updateDataCodeAllRows(List<AuthCode> listCodes) {
         CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback = time -> {
-            for (AuthCode item : listCodes) {
+            for (AuthCode item : listCodes)
                 item.reTime = time;
-            }
             triggerUpdateTime.postValue(true);
         };
 
-        List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks = new ArrayList<>();
+        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes -> {
+            for (int i = 0; i < listCodes.size(); i++)
+                listCodes.get(i).currentCode = StringUtil.formatCodeToString(codes.get(i));
+            triggerUpdateCode.postValue(true);
+        };
+
         List<String> keys = new ArrayList<>();
+        for (int i = 0; i < listCodes.size(); i++)
+            keys.add(listCodes.get(i).key);
 
-        for (int i = 0; i < listCodes.size(); i++) {
-            final int pos = i;
-            AuthCode item = listCodes.get(pos);
-
-            updateCodeCallbacks.add(code -> {
-                item.currentCode = StringUtil.formatCodeToString(code);
-                triggerUpdateCode.postValue(pos);
-            });
-
-            keys.add(item.key);
-        }
-
-        calculateCodeUtil = new CalculateCodeUtil(keys, updateTimeCallback, updateCodeCallbacks);
+        calculateCodeUtil = new CalculateCodeUtil(keys, updateTimeCallback, updateCodeCallback);
         calculateCodeUtil.startCalculate();
     }
 

@@ -1,6 +1,7 @@
 package com.za.androidauthenticator.util.calculator;
 
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
@@ -9,7 +10,7 @@ import java.util.TimerTask;
 public class CalculateCodeUtil {
 
     public interface OnUpdateCode {
-        void onUpdateCode(int codeNumber);
+        void onUpdateCode(List<Integer> codeNumber);
     }
 
     public interface OnUpdateTimeRemaining {
@@ -21,15 +22,15 @@ public class CalculateCodeUtil {
     private int numberOfKeys;
     private List<String> keys;
     private CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback;
-    private List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks;
+    private CalculateCodeUtil.OnUpdateCode updateCodeCallback;
     private Timer timer;
 
     public CalculateCodeUtil(List<String> keys,
                              CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
-                             List<CalculateCodeUtil.OnUpdateCode> updateCodeCallbacks) {
+                             CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
         this.keys = keys;
         this.updateTimeCallback = updateTimeCallback;
-        this.updateCodeCallbacks = updateCodeCallbacks;
+        this.updateCodeCallback = updateCodeCallback;
         this.numberOfKeys = keys.size();
     }
 
@@ -38,7 +39,7 @@ public class CalculateCodeUtil {
                              CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
         this.keys = Collections.singletonList(key);
         this.updateTimeCallback = updateTimeCallback;
-        this.updateCodeCallbacks = Collections.singletonList(updateCodeCallback);
+        this.updateCodeCallback = updateCodeCallback;
         this.numberOfKeys = 1;
     }
 
@@ -93,6 +94,7 @@ public class CalculateCodeUtil {
     }
 
     private void calculateCodeAndUpdateUI() {
+        List<Integer> codes = new ArrayList<>();
         for (int i = 0; i < numberOfKeys; i++) {
             String key = keys.get(i);
 
@@ -105,8 +107,9 @@ public class CalculateCodeUtil {
                 e.printStackTrace();
             }
 
-            // Update UI
-            updateCodeCallbacks.get(i).onUpdateCode(tempCode);
+            codes.add(tempCode);
         }
+        // Update UI
+        updateCodeCallback.onUpdateCode(codes);
     }
 }
