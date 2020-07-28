@@ -1,9 +1,12 @@
 package com.za.androidauthenticator.viewmodel;
 
+import android.view.MenuItem;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.UserRepository;
 import com.za.androidauthenticator.util.StringUtil;
@@ -61,5 +64,13 @@ public class AuthenticatorViewModel extends ViewModel {
     public void stopCalculateCode() {
         if (calculateCodeUtil != null)
             calculateCodeUtil.stopCalculate();
+    }
+
+    public void setTitleShowHideItem(MenuItem showHide, boolean showCode) {
+        if (showCode)
+            showHide.setTitle(R.string.hide_codes);
+        else
+            showHide.setTitle(R.string.show_codes);
+
     }
 }

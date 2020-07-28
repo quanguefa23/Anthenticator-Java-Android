@@ -80,7 +80,7 @@ public class ScanQrActivity extends BaseActivity implements ZXingScannerView.Res
             if (allPermissionsGranted()) {
                 setupCameraQrScanner();
             } else {
-                Toast.makeText(this, R.string.permisstion_denied, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

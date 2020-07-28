@@ -4,7 +4,6 @@
     <string name="scan_qr_code">Scan a QR code</string>
     <string name="enter_setup_key">Enter a setup key</string>
     <string name="how_it_work">How it works</string>
-    <string name="transfer_account">Transfer accounts</string>
     <string name="time_correction">Time correction</string>
     <string name="sync_now">Sync time now</string>
     <string name="about_feature">About this feature</string>
@@ -47,7 +46,7 @@
     <string name="cancel">cancel</string>
     <string name="edit_code_detail">Edit code detail</string>
     <string name="update_success_notification">Update successfully</string>
-    <string name="permisstion_denied">Permissions not granted by the user</string>
+    <string name="permission_denied">Permissions not granted by the user</string>
     <string name="scan_qr_success">Add key via QR code successfully</string>
     <string name="invalid_qr_code">Invalid QR code</string>
     <string name="export_account">Export account?</string>
@@ -55,4 +54,6 @@
     <string name="scan_this_qr_code">Scan this QR code</string>
     <string name="download_any_authenticator_app">Download any authenticator app on your new device. Within the app, scan this QR code.</string>
     <string name="done">done</string>
+    <string name="show_codes">Show codes</string>
+    <string name="hide_codes">Hide codes</string>
 </resources>

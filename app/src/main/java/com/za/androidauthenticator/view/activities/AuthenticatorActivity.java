@@ -1,10 +1,14 @@
 package com.za.androidauthenticator.view.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,7 @@ public class AuthenticatorActivity extends BaseActivity {
     private ActivityAuthenticatorBinding binding;
 
     private final AuthCodeAdapter adapter = new AuthCodeAdapter();
+    private boolean showCodesFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,17 @@ public class AuthenticatorActivity extends BaseActivity {
         binding.setMyViewModel(viewModel);
         binding.setMyController(this);
 
+        setShowCodesFlag();
         prepareRecyclerView();
         setOnClickItem();
         setAdapterSubscribeUI();
+    }
+
+    private void setShowCodesFlag() {
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "AuthenticatorState", MODE_PRIVATE);
+        showCodesFlag = sharedPreferences.getBoolean("showCode", true);
+        adapter.setShowCodesFlag(showCodesFlag);
     }
 
     @Override
@@ -91,7 +104,37 @@ public class AuthenticatorActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
+        viewModel.setTitleShowHideItem(menu.findItem(R.id.show_hide), showCodesFlag);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    //config option item selection in options menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.show_hide: {
+                configShowHideOption(item);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void configShowHideOption(MenuItem item) {
+        showCodesFlag = !showCodesFlag;
+        new Handler().postDelayed(() ->
+                viewModel.setTitleShowHideItem(item, showCodesFlag), 350);
+
+        //remember selection
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "AuthenticatorState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("showCode", showCodesFlag);
+        editor.apply();
+
+        adapter.setShowCodesFlag(showCodesFlag);
+        adapter.notifyDataSetChanged();
     }
 
     public void startEnterKeyActivity() {

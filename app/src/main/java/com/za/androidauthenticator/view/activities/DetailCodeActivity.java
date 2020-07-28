@@ -21,6 +21,7 @@ import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.databinding.DialogUpdateCodeBinding;
 import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.util.CopyToClipBoard;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
 
@@ -39,7 +40,8 @@ public class DetailCodeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         // Create viewModel instance
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(DetailCodeViewModel.class);
+        viewModel = new ViewModelProvider(this, viewModelFactory).
+                get(DetailCodeViewModel.class);
 
         // Binding viewModel variable to layout
         binding.setMyViewModel(viewModel);
@@ -77,16 +79,14 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     public void onCopyCodeToClipBoard(String code) {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("2fa",code.substring(0, 3) + code.substring(4));
-        if (clipboard != null) {
-            clipboard.setPrimaryClip(clip);
+        if (CopyToClipBoard.copyStringToClipBoard("2fa",
+                code.substring(0, 3) + code.substring(4), this))
             Toast.makeText(this, R.string.copy_code_clipboard, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void deleteCode() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this, R.style.AlertDialogTheme);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this,
+                R.style.AlertDialogTheme);
         alertDialog.setTitle(R.string.remove_account_confirm);
         alertDialog.setMessage(R.string.warning_remove_account);
 
@@ -148,7 +148,8 @@ public class DetailCodeActivity extends BaseActivity {
     }
 
     public void exportCode() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this, R.style.AlertDialogTheme);
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailCodeActivity.this,
+                R.style.AlertDialogTheme);
         alertDialog.setTitle(R.string.export_account);
         alertDialog.setMessage(R.string.export_code_warning);
 

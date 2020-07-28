@@ -12,6 +12,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
+import com.za.androidauthenticator.util.CopyToClipBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,11 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
     public static final String PAYLOAD_CODE = "PAYLOAD_CODE";
 
     private final List<AuthCode> listCodes = new ArrayList<>();
+    private boolean showCodesFlag = true;
+
+    public void setShowCodesFlag(boolean showCodesFlag) {
+        this.showCodesFlag = showCodesFlag;
+    }
 
     @NonNull
     @Override
@@ -45,7 +52,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty()) {
+        if (!payloads.isEmpty() && showCodesFlag) {
             AuthCode item = listCodes.get(position);
             for (Object payload : payloads) {
                 if (PAYLOAD_TIME.equals(payload)) {
@@ -74,12 +81,22 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         // Set site icon
         holder.siteIcon.setImageResource(SiteIconContract.getIconId(item.siteName));
 
-        // Set remaining time
-        holder.progress.setProgress(item.reTime);
-        holder.time.setText(Integer.toString(item.reTime));
+        if (showCodesFlag) {
+            holder.progress.setVisibility(View.VISIBLE);
+            holder.time.setVisibility(View.VISIBLE);
+            holder.code.setVisibility(View.VISIBLE);
 
-        // Set code
-        holder.code.setText(item.currentCode);
+            // Set remaining time and code
+            holder.progress.setProgress(item.reTime);
+            holder.time.setText(Integer.toString(item.reTime));
+            holder.code.setText(item.currentCode);
+        }
+        else {
+            holder.progress.setVisibility(View.GONE);
+            holder.time.setVisibility(View.GONE);
+            holder.code.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -174,6 +191,16 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
                         listener.onItemClick(itemView, position);
                     }
                 }
+            });
+
+            // Set up listener for code textView
+            code.setOnClickListener(view -> {
+                String codeString = ((TextView) view).getText().toString();
+                Context context = itemView.getContext();
+
+                if (CopyToClipBoard.copyStringToClipBoard("2fa",
+                        codeString.substring(0, 3) + codeString.substring(4), context))
+                    Toast.makeText(context, R.string.copy_code_clipboard, Toast.LENGTH_SHORT).show();
             });
         }
     }

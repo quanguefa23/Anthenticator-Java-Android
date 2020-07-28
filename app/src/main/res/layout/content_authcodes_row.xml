@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/siteIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,8 @@
             android:id="@+id/siteNameLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -38,17 +39,16 @@
             android:textColor="@color/textColor"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/siteIcon"
-            app:layout_constraintTop_toTopOf="@+id/siteIcon"
-            app:layout_constrainedWidth="true" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/accountName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxLines="1"
@@ -62,8 +62,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="15dp"
-            android:layout_height="40dp"
+            android:layout_width="12dp"
+            android:layout_height="36dp"
             android:layout_marginEnd="10dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,11 +72,12 @@
             app:srcCompat="@drawable/ic_next" />
 
         <TextView
+
             android:id="@+id/code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="6dp"
             android:background="@drawable/background_code_custom"
             android:text="034 242"
             android:textColor="@color/green"
@@ -86,6 +87,7 @@
             app:layout_constraintTop_toBottomOf="@+id/accountName" />
 
         <TextView
+
             android:id="@+id/time"
             android:text="15"
             android:layout_width="wrap_content"
@@ -96,7 +98,9 @@
             app:layout_constraintEnd_toEndOf="@+id/siteIcon"
             app:layout_constraintStart_toStartOf="@+id/siteIcon"
             app:layout_constraintTop_toTopOf="@+id/code" />
+
         <ProgressBar
+
             android:id="@+id/progress"
             style="?android:progressBarStyleHorizontal"
             android:layout_width="30dp"
