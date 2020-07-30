@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.data.contract.SiteIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
-import com.za.androidauthenticator.data.repository.UserRepository;
+import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
@@ -15,7 +15,7 @@ public class DetailCodeViewModel extends ViewModel {
     public static final int UPDATE_SITE_NAME_ERROR = 1;
     public static final int UPDATE_ACCOUNT_NAME_ERROR = 2;
 
-    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
     private CalculateCodeUtil calculateCodeUtil;
     private AuthCode authCode;
 
@@ -26,8 +26,8 @@ public class DetailCodeViewModel extends ViewModel {
     private MutableLiveData<String> accountName = new MutableLiveData<>();
     private MutableLiveData<Integer> siteIcon = new MutableLiveData<>();
 
-    public DetailCodeViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public DetailCodeViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     public MutableLiveData<Integer> getReTimeNumber() {
@@ -89,7 +89,7 @@ public class DetailCodeViewModel extends ViewModel {
     }
 
     public void deleteThisAuthCode() {
-        userRepository.getUserLocalDataSource().deleteCode(authCode);
+        authRepository.getAuthLocalDataSource().deleteCode(authCode);
     }
 
     public int updateCodeInfo(String siteName, String accountName) {
@@ -103,7 +103,7 @@ public class DetailCodeViewModel extends ViewModel {
         authCode.accountName = accountName;
 
         updateInfoDataToView();
-        userRepository.getUserLocalDataSource().updateCode(authCode);
+        authRepository.getAuthLocalDataSource().updateCode(authCode);
         return UPDATE_SUCCESS;
     }
 

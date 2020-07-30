@@ -13,13 +13,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class UserLocalDataSource {
+public class AuthLocalDataSource {
 
     AppDatabase appDatabase;
     AuthCodeDao authCodeDao;
 
     @Inject
-    public UserLocalDataSource(AppDatabase appDatabase) {
+    public AuthLocalDataSource(AppDatabase appDatabase) {
         this.appDatabase = appDatabase;
         this.authCodeDao = this.appDatabase.authCodeDao();
     }
@@ -41,6 +41,3 @@ public class UserLocalDataSource {
         SingleTaskExecutor.queueRunnable(() -> authCodeDao.updateCode(authCode));
     }
 }
-
-
-// String key = "DJ5W4EBMOXJMYCO3E3KCW4G6CL53VXQ6";

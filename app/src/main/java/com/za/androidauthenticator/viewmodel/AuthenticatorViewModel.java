@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
-import com.za.androidauthenticator.data.repository.UserRepository;
+import com.za.androidauthenticator.data.repository.AuthRepository;
+import com.za.androidauthenticator.data.repository.remote.AuthRemoteDataSource;
+import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
@@ -17,15 +19,15 @@ import java.util.List;
 
 public class AuthenticatorViewModel extends ViewModel {
 
-    private final UserRepository userRepository;
+    private final AuthRepository authRepository;
     private LiveData<List<AuthCode>> listCodes;
     MutableLiveData<Boolean> triggerUpdateTime = new MutableLiveData<>();
     MutableLiveData<Boolean> triggerUpdateCode = new MutableLiveData<>();
     private CalculateCodeUtil calculateCodeUtil;
 
-    public AuthenticatorViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        listCodes = this.userRepository.getUserLocalDataSource().getListCodesLocal();
+    public AuthenticatorViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
+        listCodes = this.authRepository.getAuthLocalDataSource().getListCodesLocal();
     }
 
     public LiveData<List<AuthCode>> getListCodes() {
@@ -71,6 +73,27 @@ public class AuthenticatorViewModel extends ViewModel {
             showHide.setTitle(R.string.hide_codes);
         else
             showHide.setTitle(R.string.show_codes);
+    }
 
+    public interface SyncTimeCallBack {
+        void onSuccess();
+        void onFailure();
+    }
+
+    public void syncTime(SyncTimeCallBack callBack) {
+        authRepository.getAuthRemoteDataSource().
+                getTime(new AuthRemoteDataSource.GetTimeCallBack() {
+            @Override
+            public void onResponse(int unixTime) {
+                AuthenticatorApp.DIFF_TIME_SECOND =
+                        (int) (unixTime - System.currentTimeMillis() / 1000);
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFailure() {
+                callBack.onFailure();
+            }
+        });
     }
 }

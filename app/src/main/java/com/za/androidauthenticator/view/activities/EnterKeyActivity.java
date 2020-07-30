@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.databinding.ActivityEnterKeyBinding;
 import com.za.androidauthenticator.di.AuthenticatorApp;
-import com.za.androidauthenticator.util.SetUIHideKeyboard;
+import com.za.androidauthenticator.util.ui.SetUIHideKeyboard;
 import com.za.androidauthenticator.viewmodel.EnterKeyViewModel;
 import com.za.androidauthenticator.view.base.BaseActivity;
 

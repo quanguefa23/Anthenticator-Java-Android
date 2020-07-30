@@ -10,6 +10,8 @@ public class AuthenticatorApp extends Application {
 
     public static final String APP_TAG = "QUANG";
 
+    public static int DIFF_TIME_SECOND = 0;
+
     // Reference to the application graph that is used across the whole app
     public ApplicationComponent appGraph = DaggerApplicationComponent.create();
 

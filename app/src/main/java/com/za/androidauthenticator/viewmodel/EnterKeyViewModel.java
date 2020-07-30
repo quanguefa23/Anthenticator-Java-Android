@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.ListSitesAvailable;
-import com.za.androidauthenticator.data.repository.UserRepository;
+import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
 
@@ -19,11 +19,11 @@ public class EnterKeyViewModel extends ViewModel {
     public static final int INSERT_ACCOUNT_NAME_ERROR = 2;
     public static final int INSERT_KEY_ERROR = 3;
 
-    UserRepository userRepository;
+    AuthRepository authRepository;
     List<String> dataDropdownMenu;
 
-    public EnterKeyViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public EnterKeyViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     public List<String> getDataDropdownMenu() {
@@ -45,7 +45,7 @@ public class EnterKeyViewModel extends ViewModel {
         if (!TimeBasedOTPUtil.isValidKey(key))
             return INSERT_KEY_ERROR;
 
-        userRepository.getUserLocalDataSource().insertNewCode(key, siteName, accountName);
+        authRepository.getAuthLocalDataSource().insertNewCode(key, siteName, accountName);
         return INSERT_SUCCESS;
     }
 }

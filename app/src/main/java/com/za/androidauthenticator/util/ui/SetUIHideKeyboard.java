@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.util;
+package com.za.androidauthenticator.util.ui;
 
 import android.app.Activity;
 import android.view.MotionEvent;

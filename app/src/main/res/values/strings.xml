@@ -56,4 +56,8 @@
     <string name="done">done</string>
     <string name="show_codes">Show codes</string>
     <string name="hide_codes">Hide codes</string>
+    <string name="sync_time_success">Sync time successfully.\n(Your device time was not changed)</string>
+    <string name="server_time_error">Can not connect to server</string>
+    <string name="choose_mail_app">Choose an mail app</string>
+    <string name="feedback_for_za_authenticator">Feedback for ZA Authenticator</string>
 </resources>

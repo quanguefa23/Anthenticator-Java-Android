@@ -5,7 +5,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
-import com.za.androidauthenticator.data.repository.UserRepository;
+import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -18,10 +18,10 @@ public class ScanQrViewModel extends ViewModel {
     public static final int INSERT_INVALID_URL_ERROR = 1;
     public static final int INSERT_KEY_ERROR = 2;
 
-    UserRepository userRepository;
+    AuthRepository authRepository;
 
-    public ScanQrViewModel(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ScanQrViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     public int insertNewCode(@NonNull String rawString) {
@@ -44,7 +44,7 @@ public class ScanQrViewModel extends ViewModel {
         }
         String accountName = getAccountName(utf8String);
 
-        userRepository.getUserLocalDataSource().insertNewCode(key, siteName, accountName);
+        authRepository.getAuthLocalDataSource().insertNewCode(key, siteName, accountName);
         return INSERT_SUCCESS;
     }
 

@@ -1,5 +1,7 @@
 package com.za.androidauthenticator.util.calculator;
 
+import com.za.androidauthenticator.di.AuthenticatorApp;
+
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,7 +92,8 @@ public class CalculateCodeUtil {
 
     private int calculateRemainingTime() {
         return (int) (DEFAULT_TIME_STEP_SECONDS -
-                ((System.currentTimeMillis() / 1000) % DEFAULT_TIME_STEP_SECONDS));
+                ((System.currentTimeMillis() / 1000 + AuthenticatorApp.DIFF_TIME_SECOND)
+                        % DEFAULT_TIME_STEP_SECONDS));
     }
 
     private void calculateCodeAndUpdateUI() {
@@ -102,13 +105,15 @@ public class CalculateCodeUtil {
             int tempCode = 0;
             try {
                 tempCode = TimeBasedOTPUtil.generateNumber(key,
-                        System.currentTimeMillis(), DEFAULT_TIME_STEP_SECONDS);
+                        System.currentTimeMillis() + 1000 * AuthenticatorApp.DIFF_TIME_SECOND,
+                        DEFAULT_TIME_STEP_SECONDS);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             }
 
             codes.add(tempCode);
         }
+
         // Update UI
         updateCodeCallback.onUpdateCode(codes);
     }
