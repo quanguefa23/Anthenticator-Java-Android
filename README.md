@@ -7,10 +7,11 @@ ViewModel
 Room  
 Data Binding  
 Dagger2 with ViewModelFactory  
+RecyclerView with DiffUtil  
 ZXing framework  
 
 ## Extra technique  
-RecyclerView with DiffUtil  
+Notifications
 Animation: Animation Resource, RecyclerView Animator  
 MotionLayout  
 Material Design  
