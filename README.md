@@ -11,6 +11,7 @@ RecyclerView with DiffUtil
 ZXing framework  
 
 ## Extra technique  
+Retrofit  
 Notifications  
 MotionLayout  
 Material Design  
