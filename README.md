@@ -12,7 +12,6 @@ ZXing framework
 
 ## Extra technique  
 Notifications
-Animation: Animation Resource, RecyclerView Animator  
 MotionLayout  
 Material Design  
 TimerTask  
