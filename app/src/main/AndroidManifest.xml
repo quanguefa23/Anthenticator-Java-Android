@@ -8,7 +8,7 @@
 
     <application
         android:usesCleartextTraffic="true"
-        android:name=".di.AuthenticatorApp"
+        android:name=".appcomponent.AuthenticatorApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_app"
         android:roundIcon="@drawable/ic_app"

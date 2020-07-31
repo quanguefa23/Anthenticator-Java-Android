@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.zxing.Result;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.databinding.ActivityScanQrBinding;
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.ScanQrViewModel;
 

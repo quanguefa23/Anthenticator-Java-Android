@@ -5,7 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.viewmodel.ViewModelFactory;
 
 import javax.inject.Inject;

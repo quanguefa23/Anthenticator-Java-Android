@@ -10,7 +10,7 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.data.repository.remote.AuthRemoteDataSource;
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 

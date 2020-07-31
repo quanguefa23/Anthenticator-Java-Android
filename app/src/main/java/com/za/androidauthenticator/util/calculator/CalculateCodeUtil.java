@@ -1,6 +1,6 @@
 package com.za.androidauthenticator.util.calculator;
 
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;

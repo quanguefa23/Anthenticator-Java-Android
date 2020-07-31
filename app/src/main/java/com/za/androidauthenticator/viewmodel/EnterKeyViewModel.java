@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.contract.SitesAvailable;
 import com.za.androidauthenticator.data.repository.AuthRepository;
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
 
 import java.util.ArrayList;

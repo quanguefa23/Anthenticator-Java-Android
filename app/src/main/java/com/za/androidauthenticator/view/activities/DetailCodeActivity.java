@@ -20,7 +20,7 @@ import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.databinding.DialogUpdateCodeBinding;
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.util.ClipBoardUtil;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;

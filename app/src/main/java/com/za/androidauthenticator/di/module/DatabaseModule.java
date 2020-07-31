@@ -3,7 +3,7 @@ package com.za.androidauthenticator.di.module;
 import androidx.room.Room;
 
 import com.za.androidauthenticator.data.roomdb.AppDatabase;
-import com.za.androidauthenticator.di.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 
 import javax.inject.Singleton;
 

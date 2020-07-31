@@ -1,4 +1,4 @@
-package com.za.androidauthenticator.di;
+package com.za.androidauthenticator.appcomponent;
 
 import android.app.Application;
 import android.app.NotificationChannel;
