@@ -11,7 +11,7 @@ RecyclerView with DiffUtil
 ZXing framework  
 
 ## Extra technique  
-Notifications
+Notifications  
 MotionLayout  
 Material Design  
 TimerTask  
