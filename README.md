@@ -5,13 +5,14 @@ MVVM Architecture
 LiveData  
 ViewModel  
 Room  
+Retrofit  
 Data Binding  
 Dagger2 with ViewModelFactory  
-ZXing framework  
+RecyclerView with DiffUtil and Payload  
 
 ## Extra technique  
-RecyclerView with DiffUtil  
-Animation: Animation Resource, RecyclerView Animator  
+Notifications  
+ZXing framework  
 MotionLayout  
 Material Design  
 TimerTask  
