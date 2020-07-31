@@ -14,6 +14,7 @@ import com.za.androidauthenticator.R;
 public class LoadingDialog {
     Context context;
     Dialog loadingDialog;
+    CountDownTimer timer;
 
     public LoadingDialog(Context context) {
         this.context = context;
@@ -28,7 +29,7 @@ public class LoadingDialog {
 
         final ProgressBar circle = loadingDialog.findViewById(R.id.circle_progress);
 
-        CountDownTimer timer = new CountDownTimer(50, 1000) {
+        timer = new CountDownTimer(50, 1000) {
             @Override
             public void onTick(long l) {
                 int progress = circle.getProgress() % 100 + 5;
@@ -43,12 +44,15 @@ public class LoadingDialog {
                 this.start();
             }
         };
+
         timer.start();
         loadingDialog.show();
     }
 
     public void stop() {
-        if (loadingDialog.isShowing())
+        if (timer != null)
+            timer.cancel();
+        if (loadingDialog != null && loadingDialog.isShowing())
             loadingDialog.dismiss();
     }
 }

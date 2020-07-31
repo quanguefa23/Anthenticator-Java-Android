@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.R;
-import com.za.androidauthenticator.data.contract.ListSitesAvailable;
+import com.za.androidauthenticator.data.contract.SitesAvailable;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.util.calculator.TimeBasedOTPUtil;
@@ -28,7 +28,7 @@ public class EnterKeyViewModel extends ViewModel {
 
     public List<String> getDataDropdownMenu() {
         if (dataDropdownMenu == null) {
-            dataDropdownMenu = new ArrayList<>(ListSitesAvailable.getListSites());
+            dataDropdownMenu = new ArrayList<>(SitesAvailable.getListSites());
             dataDropdownMenu.add(AuthenticatorApp.getInstance().getString(R.string.others));
         }
         return dataDropdownMenu;

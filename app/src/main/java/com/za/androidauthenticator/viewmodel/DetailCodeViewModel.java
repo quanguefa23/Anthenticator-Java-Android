@@ -3,7 +3,7 @@ package com.za.androidauthenticator.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.za.androidauthenticator.data.contract.SiteIconContract;
+import com.za.androidauthenticator.data.contract.SitesIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.util.FormatStringUtil;
@@ -59,7 +59,7 @@ public class DetailCodeViewModel extends ViewModel {
 
         this.siteName.setValue(authCode.siteName);
         this.accountName.setValue(authCode.accountName);
-        this.siteIcon.setValue(SiteIconContract.getIconId(authCode.siteName));
+        this.siteIcon.setValue(SitesIconContract.getIconId(authCode.siteName));
     }
 
     public void updateCodeDataToView() {

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.za.androidauthenticator.R;
-import com.za.androidauthenticator.data.contract.SiteIconContract;
+import com.za.androidauthenticator.data.contract.SitesIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.util.ClipBoardUtil;
 
@@ -74,7 +74,7 @@ public class AuthCodeAdapter extends RecyclerView.Adapter<AuthCodeAdapter.ViewHo
         holder.accountName.setText(item.accountName);
 
         // Set site icon
-        holder.siteIcon.setImageResource(SiteIconContract.getIconId(item.siteName));
+        holder.siteIcon.setImageResource(SitesIconContract.getIconId(item.siteName));
 
         if (showCodesFlag) {
             holder.progress.setVisibility(View.VISIBLE);

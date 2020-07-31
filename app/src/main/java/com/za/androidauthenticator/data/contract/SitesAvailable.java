@@ -3,7 +3,7 @@ package com.za.androidauthenticator.data.contract;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSitesAvailable {
+public class SitesAvailable {
     public static final List<String> sites;
 
     static {

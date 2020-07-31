@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
-import com.za.androidauthenticator.di.AuthenticatorApp;
 import com.za.androidauthenticator.util.ui.LoadingDialog;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
@@ -45,7 +43,7 @@ public class AuthenticatorActivity extends BaseActivity {
 
         setShowCodesFlag();
         prepareRecyclerView();
-        setOnClickItem();
+        setOnClickItemRecyclerView();
         setAdapterSubscribeUI();
     }
 
@@ -98,7 +96,7 @@ public class AuthenticatorActivity extends BaseActivity {
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void setOnClickItem() {
+    private void setOnClickItemRecyclerView() {
         adapter.setOnItemClickListener((itemView, position) -> {
             Intent intent = new Intent(AuthenticatorActivity.this, DetailCodeActivity.class);
             intent.putExtra("authCode", adapter.getListCodes().get(position));
@@ -147,7 +145,6 @@ public class AuthenticatorActivity extends BaseActivity {
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"nhqnhq1@gmail.com"});
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_for_za_authenticator));
-
         startActivity(Intent.createChooser(intent, getString(R.string.choose_mail_app)));
     }
 

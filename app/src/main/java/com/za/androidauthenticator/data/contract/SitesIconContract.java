@@ -5,7 +5,7 @@ import com.za.androidauthenticator.R;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SiteIconContract {
+public class SitesIconContract {
     private static final Map<String, Integer> mapSiteNameWithIcon;
 
     static {

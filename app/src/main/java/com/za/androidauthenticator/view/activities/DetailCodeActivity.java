@@ -11,6 +11,9 @@ import android.view.Window;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.za.androidauthenticator.R;
@@ -29,8 +32,10 @@ public class DetailCodeActivity extends BaseActivity {
 
     private Dialog dialog;
     private DialogUpdateCodeBinding dialogBinding;
-
     private AuthCode authCode;
+    private static final int NOTIFICATION_ID = 123;
+    private Observer<String> pinCodeObserver;
+    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,30 @@ public class DetailCodeActivity extends BaseActivity {
             viewModel.setAuthCode(authCode);
             viewModel.updateInfoDataToView();
         }
+
+        // register code pin to notification drawer
+        //registerCodePinNotification();
+    }
+
+    private void registerCodePinNotification() {
+        pinCodeObserver = code -> {
+            String title = authCode.siteName + " (" + authCode.accountName + ")";
+
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(this, AuthenticatorApp.CODE_CHANNEL_ID)
+                            .setSmallIcon(R.drawable.ic_app)
+                            .setContentTitle(title)
+                            .setContentText(code)
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            if (notificationManager == null)
+                notificationManager = NotificationManagerCompat.from(this);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
+        };
+
+        viewModel.getCodeString().observeForever(pinCodeObserver);
     }
 
     @Override
@@ -61,18 +90,30 @@ public class DetailCodeActivity extends BaseActivity {
 
     @Override
     protected void onStop() {
-        Log.d(AuthenticatorApp.APP_TAG, "stop");
+        Log.d(AuthenticatorApp.APP_TAG, "stop DetailActivity");
         super.onStop();
         viewModel.stopCalculateCode();
     }
 
     @Override
     protected void onStart() {
-        Log.d(AuthenticatorApp.APP_TAG, "start");
+        Log.d(AuthenticatorApp.APP_TAG, "start DetailActivity");
         super.onStart();
         if (authCode != null) {
             viewModel.updateCodeDataToView();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(AuthenticatorApp.APP_TAG, "destroy DetailActivity");
+
+//        if (notificationManager == null)
+//            notificationManager = NotificationManagerCompat.from(this);
+//        notificationManager.cancel(NOTIFICATION_ID);
+//        viewModel.stopCalculateCode();
+//        viewModel.getCodeString().removeObserver(pinCodeObserver);
     }
 
     public void onCopyCodeToClipBoard(String code) {
