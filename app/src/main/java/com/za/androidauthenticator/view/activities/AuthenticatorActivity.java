@@ -115,26 +115,21 @@ public class AuthenticatorActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.show_hide: {
+            case R.id.show_hide:
                 configShowHideOption(item);
                 return true;
-            }
-            case R.id.sync_now: {
+            case R.id.sync_now:
                 syncTime();
                 return true;
-            }
-            case R.id.about_sync: {
+            case R.id.about_sync:
                 aboutSync();
                 return true;
-            }
-            case R.id.feedback: {
+            case R.id.feedback:
                 feedback();
                 return true;
-            }
-            case R.id.how_it_work: {
+            case R.id.how_it_work:
                 howItWorks();
                 return true;
-            }
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.za.androidauthenticator.R;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.data.repository.remote.AuthRemoteDataSource;
-import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
 
@@ -51,7 +51,7 @@ public class AuthenticatorViewModel extends ViewModel {
 
         CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes -> {
             for (int i = 0; i < listCodes.size(); i++)
-                listCodes.get(i).currentCode = FormatStringUtil.formatCodeToString(codes.get(i));
+                listCodes.get(i).currentCode = FormatStringUtil.formatCodeToStringWithSpace(codes.get(i));
             triggerUpdateCode.postValue(true);
         };
 

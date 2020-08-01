@@ -11,16 +11,15 @@ import android.view.Window;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.Observer;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.za.androidauthenticator.R;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
+import com.za.androidauthenticator.appcomponent.service.PinCodeService;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.databinding.ActivityDetailCodeBinding;
 import com.za.androidauthenticator.databinding.DialogUpdateCodeBinding;
-import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.util.ClipBoardUtil;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.DetailCodeViewModel;
@@ -33,9 +32,6 @@ public class DetailCodeActivity extends BaseActivity {
     private Dialog dialog;
     private DialogUpdateCodeBinding dialogBinding;
     private AuthCode authCode;
-    private static final int NOTIFICATION_ID = 123;
-    private Observer<String> pinCodeObserver;
-    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,30 +51,14 @@ public class DetailCodeActivity extends BaseActivity {
             viewModel.setAuthCode(authCode);
             viewModel.updateInfoDataToView();
         }
-
-        // register code pin to notification drawer
-        //registerCodePinNotification();
     }
 
-    private void registerCodePinNotification() {
-        pinCodeObserver = code -> {
-            String title = authCode.siteName + " (" + authCode.accountName + ")";
-
-            NotificationCompat.Builder builder =
-                    new NotificationCompat.Builder(this, AuthenticatorApp.CODE_CHANNEL_ID)
-                            .setSmallIcon(R.drawable.ic_app)
-                            .setContentTitle(title)
-                            .setContentText(code)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-            if (notificationManager == null)
-                notificationManager = NotificationManagerCompat.from(this);
-
-            // notificationId is a unique int for each notification that you must define
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
-        };
-
-        viewModel.getCodeString().observeForever(pinCodeObserver);
+    public void pinCodeToNotification() {
+        Intent serviceIntent = new Intent(this, PinCodeService.class);
+        serviceIntent.putExtra("authCode", authCode);
+        ContextCompat.startForegroundService(this, serviceIntent);
+        Toast.makeText(this, "Your code was pinned to notification drawer",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -108,12 +88,6 @@ public class DetailCodeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(AuthenticatorApp.APP_TAG, "destroy DetailActivity");
-
-//        if (notificationManager == null)
-//            notificationManager = NotificationManagerCompat.from(this);
-//        notificationManager.cancel(NOTIFICATION_ID);
-//        viewModel.stopCalculateCode();
-//        viewModel.getCodeString().removeObserver(pinCodeObserver);
     }
 
     public void onCopyCodeToClipBoard(String code) {

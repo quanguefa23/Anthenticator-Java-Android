@@ -60,4 +60,6 @@
     <string name="server_time_error">Can not connect to server</string>
     <string name="choose_mail_app">Choose an mail app</string>
     <string name="feedback_for_za_authenticator">Feedback for ZA Authenticator</string>
+    <string name="pin_your_code">Pin this 2FA code</string>
+    <string name="copy">copy</string>
 </resources>

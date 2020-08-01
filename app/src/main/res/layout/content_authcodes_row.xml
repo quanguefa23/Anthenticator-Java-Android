@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="6dp"
-            android:background="@drawable/background_code_custom"
+            android:background="@drawable/background_press_custom"
             android:text="034 242"
             android:textColor="@color/green"
             android:textSize="32sp"

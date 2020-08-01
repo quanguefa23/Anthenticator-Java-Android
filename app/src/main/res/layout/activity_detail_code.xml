@@ -12,7 +12,6 @@
             type="com.za.androidauthenticator.view.activities.DetailCodeActivity" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
             android:isScrollContainer="true"
             android:id="@+id/container"
@@ -162,6 +161,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                 <TextView
+                    android:background="@drawable/background_press_custom"
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -207,12 +207,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/background_code_custom"
+                    android:background="@drawable/background_press_custom"
                     android:onClick="@{() -> myController.onCopyCodeToClipBoard(myViewModel.codeString)}"
                     android:text="@{myViewModel.codeString}"
                     android:textColor="@color/green"
                     android:textSize="32sp"
-                    app:layout_constraintEnd_toEndOf="@+id/textView5"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -228,6 +227,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/code" />
 
                 <TextView
+                    android:background="@drawable/background_press_custom"
                     android:onClick="@{() -> myController.exportCode()}"
                     android:id="@+id/exportCode"
                     android:layout_width="wrap_content"
@@ -241,6 +241,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line2" />
 
+                <TextView
+                    android:background="@drawable/background_press_custom"
+                    android:id="@+id/pinCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="16dp"
+                    android:onClick="@{() -> myController.pinCodeToNotification()}"
+                    android:text="@string/pin_your_code"
+                    android:textColor="@color/textColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3" />
+
                 <ImageView
                     android:onClick="@{() -> myController.exportCode()}"
                     android:id="@+id/exportIcon"
@@ -251,6 +266,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/line2"
                     app:srcCompat="@drawable/ic_export" />
+
+                <ImageView
+                    android:id="@+id/pinIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:onClick="@{() -> myController.pinCodeToNotification()}"
+                    app:layout_constraintBottom_toTopOf="@+id/line4"
+                    app:layout_constraintEnd_toStartOf="@+id/pinCode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3"
+                    app:srcCompat="@drawable/ic_pin" />
 
                 <View
                     android:id="@+id/line3"
@@ -263,7 +289,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/exportCode" />
 
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pinCode" />
+
                 <TextView
+                    android:background="@drawable/background_press_custom"
                     android:onClick="@{() -> myController.deleteCode()}"
                     android:id="@+id/removeTextView"
                     android:layout_width="wrap_content"
@@ -275,7 +313,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/line3" />
+                    app:layout_constraintTop_toBottomOf="@+id/line4" />
 
                 <ImageView
                     android:onClick="@{() -> myController.deleteCode()}"
@@ -283,14 +321,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:rotation="45"
-                    app:layout_constraintBottom_toTopOf="@+id/line4"
+                    app:layout_constraintBottom_toTopOf="@+id/line5"
                     app:layout_constraintEnd_toStartOf="@+id/removeTextView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/line3"
+                    app:layout_constraintTop_toBottomOf="@+id/line4"
                     app:srcCompat="@drawable/ic_remove" />
 
                 <View
-                    android:id="@+id/line4"
+                    android:id="@+id/line5"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="16dp"

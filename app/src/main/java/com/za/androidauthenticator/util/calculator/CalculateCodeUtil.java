@@ -1,6 +1,10 @@
 package com.za.androidauthenticator.util.calculator;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
+import com.za.androidauthenticator.util.SingleTaskExecutor;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -27,22 +31,19 @@ public class CalculateCodeUtil {
     private CalculateCodeUtil.OnUpdateCode updateCodeCallback;
     private Timer timer;
 
-    public CalculateCodeUtil(List<String> keys,
-                             CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
-                             CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
+    public CalculateCodeUtil(@NonNull List<String> keys,
+                             @Nullable CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
+                             @NonNull CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
         this.keys = keys;
         this.updateTimeCallback = updateTimeCallback;
         this.updateCodeCallback = updateCodeCallback;
         this.numberOfKeys = keys.size();
     }
 
-    public CalculateCodeUtil(String key,
-                             CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
-                             CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
-        this.keys = Collections.singletonList(key);
-        this.updateTimeCallback = updateTimeCallback;
-        this.updateCodeCallback = updateCodeCallback;
-        this.numberOfKeys = 1;
+    public CalculateCodeUtil(@NonNull String key,
+                             @Nullable CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback,
+                             @NonNull CalculateCodeUtil.OnUpdateCode updateCodeCallback) {
+        this(Collections.singletonList(key), updateTimeCallback, updateCodeCallback);
     }
 
     public void stopCalculate() {
@@ -54,19 +55,19 @@ public class CalculateCodeUtil {
         // Calculate remaining time
         int rTimeFirstLoad = calculateRemainingTime();
 
-        // Update UI
-        updateTimeCallback.onUpdateTimeRemaining(rTimeFirstLoad);
+        SingleTaskExecutor.queueRunnable(() -> {
+            if (updateTimeCallback != null)
+                updateTimeCallback.onUpdateTimeRemaining(rTimeFirstLoad);
+            calculateCodeAndUpdateUI();
+        });
 
-        calculateCodeAndUpdateUI();
-
-        // Repeat infinitely until activity destroyed
+        // Repeat infinitely until activity stopped (run in background thread)
         timer = new Timer();
         TimerTask task = new CalculatorTimerTask(rTimeFirstLoad);
         timer.schedule(task, 1000, 1000);
     }
 
     class CalculatorTimerTask extends TimerTask {
-
         int rTime;
 
         public CalculatorTimerTask(int rTime) {
@@ -82,11 +83,11 @@ public class CalculateCodeUtil {
                 rTime = 30;
 
             // Update UI
-            updateTimeCallback.onUpdateTimeRemaining(rTime);
+            if (updateTimeCallback != null)
+                updateTimeCallback.onUpdateTimeRemaining(rTime);
 
-            if (rTime == 30) {
+            if (rTime == 30)
                 calculateCodeAndUpdateUI();
-            }
         }
     }
 
@@ -113,7 +114,6 @@ public class CalculateCodeUtil {
 
             codes.add(tempCode);
         }
-
         // Update UI
         updateCodeCallback.onUpdateCode(codes);
     }
