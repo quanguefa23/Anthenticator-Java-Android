@@ -11,8 +11,9 @@ Dagger2 with ViewModelFactory
 RecyclerView with DiffUtil and Payload  
 
 ## Extra technique  
-Notifications  
 ZXing framework  
+Foreground Service  
+Notifications    
 MotionLayout  
 Material Design  
 TimerTask  
