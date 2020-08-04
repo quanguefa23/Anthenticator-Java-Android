@@ -17,7 +17,8 @@ import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.appcomponent.broadcastreceiver.PinCodeActionReceiver;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.util.FormatStringUtil;
-import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
+import com.za.androidauthenticator.util.calculator.CalTaskByHandlerThread;
+import com.za.androidauthenticator.util.calculator.CalculationTask;
 import com.za.androidauthenticator.view.activities.DetailCodeActivity;
 
 public class PinCodeService extends Service {
@@ -30,7 +31,7 @@ public class PinCodeService extends Service {
     private final int ONGOING_NOTIFICATION_ID = 232;
     private final String CODE_CHANNEL_ID = "OTP-Code";
 
-    private CalculateCodeUtil calculateCodeUtil;
+    private CalculationTask calculationTask;
 
     @Nullable
     @Override
@@ -72,52 +73,57 @@ public class PinCodeService extends Service {
         Intent contentIntent = new Intent(this, DetailCodeActivity.class);
         contentIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         contentIntent.putExtra("authCode", authCode);
-        PendingIntent contentPendingIntent = PendingIntent.getActivity(this, 0, contentIntent, 0);
+        PendingIntent contentPendingIntent = PendingIntent.getActivity(
+                this, 0, contentIntent, 0);
 
-        // Create notification (without content (code), we will set content later)
-        NotificationCompat.Builder builder = createBuilder(authCode, contentPendingIntent);
-
-        // Add intent for cancel action
+        // Create intent for cancel action
         Intent cancelIntent = new Intent(this, PinCodeActionReceiver.class);
         cancelIntent.setAction(ACTION_CANCEL);
         PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this,
                 CANCEL_REQUEST_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.ic_cancel, getString(R.string.cancel), cancelPendingIntent);
 
-        // Add intent for copy action
-        Intent copyIntent = new Intent(this, PinCodeActionReceiver.class);
-        copyIntent.setAction(ACTION_COPY);
-        PendingIntent copyPendingIntent = PendingIntent.getBroadcast(this,
-                COPY_REQUEST_CODE, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.ic_add, getString(R.string.copy), copyPendingIntent);
+        // Register callback to update notification (code)
+        CalculationTask.OnUpdateCode updateCodeCallback = codes -> {
+            // Create notification
+            NotificationCompat.Builder builder = createBuilder(authCode, contentPendingIntent,
+                    FormatStringUtil.formatCodeToString(codes.get(0)));
 
-        // Register callback to update UI (code)
-        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes -> {
-            // set content for notification
-            builder.setContentText(FormatStringUtil.formatCodeToString(codes.get(0)));
+            // Add intent for copy action
+            Intent copyIntent = new Intent(this, PinCodeActionReceiver.class);
+            copyIntent.setAction(ACTION_COPY);
+            copyIntent.putExtra("code", FormatStringUtil.formatCodeToString(codes.get(0)));
+            PendingIntent copyPendingIntent = PendingIntent.getBroadcast(this,
+                    COPY_REQUEST_CODE, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // Add action to builder
+            builder.addAction(R.drawable.ic_add, getString(R.string.copy), copyPendingIntent);
+            builder.addAction(R.drawable.ic_cancel, getString(R.string.cancel), cancelPendingIntent);
+
             startForeground(ONGOING_NOTIFICATION_ID, builder.build());
         };
 
         // stop old calculator if exist
-        if (calculateCodeUtil != null)
-            calculateCodeUtil.stopCalculate();
+        if (calculationTask != null)
+            calculationTask.stopCalculate();
 
         // start new calculator
-        calculateCodeUtil = new CalculateCodeUtil(authCode.key, null, updateCodeCallback);
-        calculateCodeUtil.startCalculate();
+        calculationTask = new CalTaskByHandlerThread(authCode.key, null, updateCodeCallback);
+        calculationTask.startCalculate();
 
         return START_REDELIVER_INTENT;
     }
 
-    private NotificationCompat.Builder createBuilder(AuthCode authCode, PendingIntent contentPendingIntent) {
+    private NotificationCompat.Builder createBuilder(AuthCode authCode,
+                                                     PendingIntent contentPendingIntent,
+                                                     String contentText) {
         String title = authCode.siteName + " (" + authCode.accountName + ")";
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CODE_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_app)
                         .setContentTitle(title)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                        .setContentIntent(contentPendingIntent);
-
+                        .setContentIntent(contentPendingIntent)
+                        .setContentText(contentText);
         return builder;
     }
 
@@ -125,7 +131,7 @@ public class PinCodeService extends Service {
     public void onDestroy() {
         Log.d(AuthenticatorApp.APP_TAG, "destroy PinCodeService");
         super.onDestroy();
-        if (calculateCodeUtil != null)
-            calculateCodeUtil.stopCalculate();
+        if (calculationTask != null)
+            calculationTask.stopCalculate();
     }
 }

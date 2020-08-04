@@ -7,7 +7,9 @@ import com.za.androidauthenticator.data.contract.SitesIconContract;
 import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.util.FormatStringUtil;
-import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
+import com.za.androidauthenticator.util.calculator.CalTaskByHandlerThread;
+import com.za.androidauthenticator.util.calculator.CalTaskByTimerTask;
+import com.za.androidauthenticator.util.calculator.CalculationTask;
 
 public class DetailCodeViewModel extends ViewModel {
 
@@ -16,7 +18,7 @@ public class DetailCodeViewModel extends ViewModel {
     public static final int UPDATE_ACCOUNT_NAME_ERROR = 2;
 
     private final AuthRepository authRepository;
-    private CalculateCodeUtil calculateCodeUtil;
+    private CalculationTask calculationTask;
     private AuthCode authCode;
 
     private MutableLiveData<Integer> reTimeNumber = new MutableLiveData<>();
@@ -66,22 +68,22 @@ public class DetailCodeViewModel extends ViewModel {
         if (authCode == null) return;
 
         // Register callback to update UI (time)
-        CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback = time -> {
+        CalculationTask.OnUpdateTimeRemaining updateTimeCallback = time -> {
             reTimeString.postValue(Integer.toString(time));
             reTimeNumber.postValue(time);
         };
 
         // Register callback to update UI (code)
-        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes ->
+        CalculationTask.OnUpdateCode updateCodeCallback = codes ->
                 this.codeString.postValue(FormatStringUtil.formatCodeToStringWithSpace(codes.get(0)));
 
-        calculateCodeUtil = new CalculateCodeUtil(authCode.key, updateTimeCallback, updateCodeCallback);
-        calculateCodeUtil.startCalculate();
+        calculationTask = new CalTaskByHandlerThread(authCode.key, updateTimeCallback, updateCodeCallback);
+        calculationTask.startCalculate();
     }
 
     public void stopCalculateCode() {
-        if (calculateCodeUtil != null)
-            calculateCodeUtil.stopCalculate();
+        if (calculationTask != null)
+            calculationTask.stopCalculate();
     }
 
     public void setAuthCode(AuthCode authCode) {

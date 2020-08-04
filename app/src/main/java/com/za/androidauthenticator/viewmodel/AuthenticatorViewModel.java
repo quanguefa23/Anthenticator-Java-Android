@@ -12,7 +12,9 @@ import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.data.repository.remote.AuthRemoteDataSource;
 import com.za.androidauthenticator.util.FormatStringUtil;
-import com.za.androidauthenticator.util.calculator.CalculateCodeUtil;
+import com.za.androidauthenticator.util.calculator.CalTaskByHandlerThread;
+import com.za.androidauthenticator.util.calculator.CalTaskByTimerTask;
+import com.za.androidauthenticator.util.calculator.CalculationTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class AuthenticatorViewModel extends ViewModel {
     private LiveData<List<AuthCode>> listCodes;
     MutableLiveData<Boolean> triggerUpdateTime = new MutableLiveData<>();
     MutableLiveData<Boolean> triggerUpdateCode = new MutableLiveData<>();
-    private CalculateCodeUtil calculateCodeUtil;
+    private CalculationTask calculationTask;
 
     public AuthenticatorViewModel(AuthRepository authRepository) {
         this.authRepository = authRepository;
@@ -43,13 +45,13 @@ public class AuthenticatorViewModel extends ViewModel {
     }
 
     public void updateDataCodeAllRows(List<AuthCode> listCodes) {
-        CalculateCodeUtil.OnUpdateTimeRemaining updateTimeCallback = time -> {
+        CalculationTask.OnUpdateTimeRemaining updateTimeCallback = time -> {
             for (AuthCode item : listCodes)
                 item.reTime = time;
             triggerUpdateTime.postValue(true);
         };
 
-        CalculateCodeUtil.OnUpdateCode updateCodeCallback = codes -> {
+        CalculationTask.OnUpdateCode updateCodeCallback = codes -> {
             for (int i = 0; i < listCodes.size(); i++)
                 listCodes.get(i).currentCode = FormatStringUtil.formatCodeToStringWithSpace(codes.get(i));
             triggerUpdateCode.postValue(true);
@@ -59,13 +61,13 @@ public class AuthenticatorViewModel extends ViewModel {
         for (int i = 0; i < listCodes.size(); i++)
             keys.add(listCodes.get(i).key);
 
-        calculateCodeUtil = new CalculateCodeUtil(keys, updateTimeCallback, updateCodeCallback);
-        calculateCodeUtil.startCalculate();
+        calculationTask = new CalTaskByHandlerThread(keys, updateTimeCallback, updateCodeCallback);
+        calculationTask.startCalculate();
     }
 
     public void stopCalculateCode() {
-        if (calculateCodeUtil != null)
-            calculateCodeUtil.stopCalculate();
+        if (calculationTask != null)
+            calculationTask.stopCalculate();
     }
 
     public void setTitleShowHideItem(MenuItem showHide, boolean showCode) {
