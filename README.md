@@ -16,6 +16,7 @@ Foreground Service
 Notifications    
 MotionLayout  
 Material Design  
-TimerTask  
+TimerTask (replace later)  
+Handler and HandlerThread (replace TimerTask)  
 ThreadPool - SingleThreadScheduledExecutor  
 Persistent configuration change  
