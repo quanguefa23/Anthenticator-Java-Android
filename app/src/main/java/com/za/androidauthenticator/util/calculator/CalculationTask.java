@@ -45,11 +45,13 @@ public abstract class CalculationTask {
 
     public abstract void startCalculate();
 
+    public static int getCorrectTimeSecond() {
+        return (int) System.currentTimeMillis() / 1000 + AuthenticatorApp.DIFF_TIME_SECOND;
+    }
+
     protected int CODE_DEBUG = 0;
     protected int calculateRemainingTime() {
-        return (int) (DEFAULT_TIME_STEP_SECONDS -
-                ((System.currentTimeMillis() / 1000 + AuthenticatorApp.DIFF_TIME_SECOND)
-                        % DEFAULT_TIME_STEP_SECONDS));
+        return DEFAULT_TIME_STEP_SECONDS - (getCorrectTimeSecond() % DEFAULT_TIME_STEP_SECONDS);
     }
 
     protected void calculateCodeAndUpdateUI() {

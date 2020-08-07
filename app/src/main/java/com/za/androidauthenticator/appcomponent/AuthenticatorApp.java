@@ -1,9 +1,6 @@
 package com.za.androidauthenticator.appcomponent;
 
 import android.app.Application;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 
 import com.za.androidauthenticator.di.component.ApplicationComponent;
 import com.za.androidauthenticator.di.component.DaggerApplicationComponent;

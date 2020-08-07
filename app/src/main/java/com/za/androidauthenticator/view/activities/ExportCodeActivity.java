@@ -3,7 +3,6 @@ package com.za.androidauthenticator.view.activities;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 

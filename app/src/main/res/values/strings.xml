@@ -8,8 +8,8 @@
     <string name="sync_now">Sync time now</string>
     <string name="about_feature">About this feature</string>
     <string name="help_feedback">Help and feedback</string>
-    <string name="sync_data">Sync data</string>
-    <string name="switch_account">Switch google account</string>
+    <string name="backup_data">Backup data</string>
+    <string name="restore_data">Restore data</string>
     <string name="give_feedback">Give feedback</string>
     <string name="scan_a_qr_code">Scan a QR code</string>
     <string name="enter_a_setup_key">Enter a setup key</string>
@@ -43,7 +43,7 @@
     <string name="remove_account_confirm">Remove account?</string>
     <string name="warning_remove_account">After removing your account, you will not be able to use this device to verify your identity</string>
     <string name="update">update</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="edit_code_detail">Edit code detail</string>
     <string name="update_success_notification">Update successfully</string>
     <string name="permission_denied">Permissions not granted by the user</string>
@@ -61,5 +61,6 @@
     <string name="choose_mail_app">Choose an mail app</string>
     <string name="feedback_for_za_authenticator">Feedback for ZA Authenticator</string>
     <string name="pin_your_code">Pin this 2FA code</string>
-    <string name="copy">copy</string>
+    <string name="copy">Copy</string>
+    <string name="sign_in_success">Sign in successfully</string>
 </resources>

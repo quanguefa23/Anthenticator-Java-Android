@@ -3,45 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.za.androidauthenticator">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:name=".appcomponent.AuthenticatorApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_app"
-        android:roundIcon="@drawable/ic_app"
         android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-
-        <service
-            android:name=".appcomponent.service.PinCodeService"
-            android:enabled="true"
-            android:exported="false"/>
-
-        <receiver android:name=".appcomponent.broadcastreceiver.PinCodeActionReceiver" />
-
-        <activity android:name=".view.activities.ExportCodeActivity"/>
-
-        <activity android:name=".view.activities.ScanQrActivity" />
-
-        <activity
-            android:name=".view.activities.EnterKeyActivity"
-            android:theme="@style/EnterKeyTheme" />
-        <activity android:name=".view.activities.DetailCodeActivity"
-            android:theme="@style/DetailCodeTheme"/>
-        <activity
-            android:name=".view.activities.AuthenticatorActivity"
-            android:theme="@style/AuthenticatorTheme">
+        <activity android:name=".view.activities.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <service
+            android:name=".appcomponent.service.PinCodeService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver android:name=".appcomponent.broadcastreceiver.PinCodeActionReceiver" />
+
+        <activity android:name=".view.activities.ExportCodeActivity" />
+        <activity android:name=".view.activities.ScanQrActivity" />
+        <activity
+            android:name=".view.activities.EnterKeyActivity"
+            android:theme="@style/EnterKeyTheme" />
+        <activity
+            android:name=".view.activities.DetailCodeActivity"
+            android:theme="@style/DetailCodeTheme" />
+        <activity
+            android:name=".view.activities.AuthenticatorActivity"
+            android:theme="@style/AuthenticatorTheme">
+
         </activity>
     </application>
 

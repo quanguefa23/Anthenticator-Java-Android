@@ -8,7 +8,6 @@ import com.za.androidauthenticator.data.entity.AuthCode;
 import com.za.androidauthenticator.data.repository.AuthRepository;
 import com.za.androidauthenticator.util.FormatStringUtil;
 import com.za.androidauthenticator.util.calculator.CalTaskByHandlerThread;
-import com.za.androidauthenticator.util.calculator.CalTaskByTimerTask;
 import com.za.androidauthenticator.util.calculator.CalculationTask;
 
 public class DetailCodeViewModel extends ViewModel {

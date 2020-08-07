@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.FileList;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.data.entity.ResponseTime;
 
 import javax.inject.Inject;
@@ -14,10 +17,24 @@ import retrofit2.Response;
 
 public class AuthRemoteDataSource {
     private final TimeRetrofitService timeRetrofitService;
+    private GoogleDriveService googleDriveService;
 
     @Inject
     public AuthRemoteDataSource(TimeRetrofitService timeRetrofitService) {
         this.timeRetrofitService = timeRetrofitService;
+    }
+
+    public void createGoogleDriveService(Drive driveService) {
+        googleDriveService = new GoogleDriveService(driveService);
+    }
+
+    public void getListDataFile(GetDataCallBack callBack) {
+        googleDriveService.queryFiles()
+                .addOnSuccessListener(callBack::onReceive)
+                .addOnFailureListener(exception -> {
+                    Log.e(AuthenticatorApp.APP_TAG, "Unable to query files.", exception);
+                    callBack.onFailure();
+                });
     }
 
     public void getTime(GetTimeCallBack callBack) {
@@ -37,6 +54,11 @@ public class AuthRemoteDataSource {
                 callBack.onFailure();
             }
         });
+    }
+
+    public interface GetDataCallBack {
+        void onReceive(FileList fileList);
+        void onFailure();
     }
 
     public interface GetTimeCallBack {

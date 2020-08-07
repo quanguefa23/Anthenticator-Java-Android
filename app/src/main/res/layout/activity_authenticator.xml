@@ -122,7 +122,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/recommendSignIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -163,6 +163,7 @@
                 app:layout_constraintVertical_bias="0.3" />
 
             <Button
+                android:onClick="@{() -> myController.requestSignInGoogle()}"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:background="@drawable/button_custom"
@@ -173,7 +174,7 @@
                 android:text="@string/sign_in"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/recommendSignIn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -1,10 +1,12 @@
 package com.za.androidauthenticator.view.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +17,25 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.Scope;
+import com.google.api.services.drive.DriveScopes;
 import com.za.androidauthenticator.R;
 import com.za.androidauthenticator.adapters.AuthCodeAdapter;
+import com.za.androidauthenticator.appcomponent.AuthenticatorApp;
 import com.za.androidauthenticator.databinding.ActivityAuthenticatorBinding;
 import com.za.androidauthenticator.util.ui.LoadingDialog;
 import com.za.androidauthenticator.view.base.BaseActivity;
 import com.za.androidauthenticator.viewmodel.AuthenticatorViewModel;
 
 public class AuthenticatorActivity extends BaseActivity {
+
+    private static final int REQUEST_CODE_SIGN_IN = 400;
+    private static final String SHOW_CODE_PREFERENCES_KEY = "isShowing";
+    private static final String SIGN_IN_PREFERENCES_KEY = "isLogin";
+    public static final String PREFERENCES_STATE_NAME = "AuthenticatorState";
 
     private AuthenticatorViewModel viewModel;
     private ActivityAuthenticatorBinding binding;
@@ -41,16 +54,29 @@ public class AuthenticatorActivity extends BaseActivity {
         binding.setMyViewModel(viewModel);
         binding.setMyController(this);
 
+        configSignInViewVisibility();
         setShowCodesFlag();
         prepareRecyclerView();
         setOnClickItemRecyclerView();
         setAdapterSubscribeUI();
+
+        requestSignInGoogle();
+    }
+
+    private void configSignInViewVisibility() {
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                PREFERENCES_STATE_NAME, MODE_PRIVATE);
+        boolean isLogin = sharedPreferences.getBoolean(SIGN_IN_PREFERENCES_KEY, false);
+        if (isLogin) {
+            binding.recommendSignIn.setVisibility(View.INVISIBLE);
+            binding.signInButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setShowCodesFlag() {
         SharedPreferences sharedPreferences = getSharedPreferences(
-                "AuthenticatorState", MODE_PRIVATE);
-        showCodesFlag = sharedPreferences.getBoolean("showCode", true);
+                PREFERENCES_STATE_NAME, MODE_PRIVATE);
+        showCodesFlag = sharedPreferences.getBoolean(SHOW_CODE_PREFERENCES_KEY, true);
         adapter.setShowCodesFlag(showCodesFlag);
     }
 
@@ -186,9 +212,9 @@ public class AuthenticatorActivity extends BaseActivity {
 
         //remember selection
         SharedPreferences sharedPreferences = getSharedPreferences(
-                "AuthenticatorState", MODE_PRIVATE);
+                PREFERENCES_STATE_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("showCode", showCodesFlag);
+        editor.putBoolean(SHOW_CODE_PREFERENCES_KEY, showCodesFlag);
         editor.apply();
 
         adapter.setShowCodesFlag(showCodesFlag);
@@ -210,5 +236,45 @@ public class AuthenticatorActivity extends BaseActivity {
     public void revertMotion() {
         if (binding.motionLayout.getProgress() == 1)
             binding.motionLayout.transitionToStart();
+    }
+
+    public void requestSignInGoogle() {
+        Log.d(AuthenticatorApp.APP_TAG, "Requesting sign-in");
+
+        GoogleSignInOptions signInOptions =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .requestScopes(new Scope(DriveScopes.DRIVE_APPDATA))
+                        .build();
+        GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
+
+        // The result of the sign-in Intent is handled in onActivityResult.
+        startActivityForResult(client.getSignInIntent(), REQUEST_CODE_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        Log.d(AuthenticatorApp.APP_TAG, "onActivityResult");
+
+        switch (requestCode) {
+            case REQUEST_CODE_SIGN_IN: {
+                if (resultCode == Activity.RESULT_OK && resultData != null) {
+                    viewModel.handleSignInResult(resultData, getBaseContext(), () -> {
+                        //remember sign-in
+                        SharedPreferences sharedPreferences = getSharedPreferences(
+                                PREFERENCES_STATE_NAME, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean(SIGN_IN_PREFERENCES_KEY, true);
+                        editor.apply();
+
+                        // notify to user
+                        Toast.makeText(AuthenticatorActivity.this, R.string.sign_in_success,
+                                Toast.LENGTH_SHORT).show();
+                    });
+                }
+                break;
+            }
+            default: super.onActivityResult(requestCode, resultCode, resultData);
+        }
     }
 }

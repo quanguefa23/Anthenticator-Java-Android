@@ -9,14 +9,14 @@
 
     <item
         android:orderInCategory="2"
-        android:id="@+id/sync_data"
-        android:title="@string/sync_data">
+        android:id="@+id/backup_data"
+        android:title="@string/backup_data">
     </item>
 
     <item
         android:orderInCategory="3"
-        android:id="@+id/switch_account"
-        android:title="@string/switch_account">
+        android:id="@+id/restore_data"
+        android:title="@string/restore_data">
     </item>
 
     <item android:orderInCategory="4"
