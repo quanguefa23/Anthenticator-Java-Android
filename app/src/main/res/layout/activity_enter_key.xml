@@ -6,16 +6,16 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.EnterKeyViewModel" />
+            type="com.nhq.authenticator.viewmodel.EnterKeyViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.EnterKeyActivity" />
+            type="com.nhq.authenticator.view.activities.EnterKeyActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.za.androidauthenticator.view.activities.EnterKeyActivity">
+        tools:context="com.nhq.authenticator.view.activities.EnterKeyActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/appBarLayout"

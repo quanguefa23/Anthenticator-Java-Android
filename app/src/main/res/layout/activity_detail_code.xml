@@ -6,10 +6,10 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.DetailCodeViewModel" />
+            type="com.nhq.authenticator.viewmodel.DetailCodeViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.DetailCodeActivity" />
+            type="com.nhq.authenticator.view.activities.DetailCodeActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.za.androidauthenticator.view.activities.DetailCodeActivity">
+            tools:context="com.nhq.authenticator.view.activities.DetailCodeActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/upperLayout"

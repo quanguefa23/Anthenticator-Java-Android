@@ -6,16 +6,16 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.ExportCodeViewModel" />
+            type="com.nhq.authenticator.viewmodel.ExportCodeViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.ExportCodeActivity" />
+            type="com.nhq.authenticator.view.activities.ExportCodeActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.za.androidauthenticator.view.activities.ScanQrActivity">
+        tools:context="com.nhq.authenticator.view.activities.ScanQrActivity">
 
         <TextView
             android:id="@+id/textView"

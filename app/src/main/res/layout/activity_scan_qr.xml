@@ -6,16 +6,16 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.ScanQrViewModel" />
+            type="com.nhq.authenticator.viewmodel.ScanQrViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.ScanQrActivity" />
+            type="com.nhq.authenticator.view.activities.ScanQrActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.za.androidauthenticator.view.activities.ScanQrActivity">
+        tools:context="com.nhq.authenticator.view.activities.ScanQrActivity">
 
         <FrameLayout
             android:id="@+id/appBarLayout"

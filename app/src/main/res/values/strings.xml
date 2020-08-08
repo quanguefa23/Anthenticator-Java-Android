@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZA Authenticator</string>
+    <string name="app_name">Authenticator</string>
     <string name="add_new_2fa">Add new 2FA</string>
     <string name="scan_qr_code">Scan a QR code</string>
     <string name="enter_setup_key">Enter a setup key</string>
@@ -63,4 +63,17 @@
     <string name="pin_your_code">Pin this 2FA code</string>
     <string name="copy">Copy</string>
     <string name="sign_in_success">Sign in successfully</string>
+    <string name="accounts">Accounts</string>
+    <string name="request_sign_in">Requesting sign-in</string>
+    <string name="must_have_one_code">You must have at least one code to backup data</string>
+    <string name="yes">yes</string>
+    <string name="confirm_sign_in">Confirm sign in?</string>
+    <string name="you_must_sign_in">You must sign in with google account to backup data</string>
+    <string name="no">No</string>
+    <string name="backup_success">Backup data success</string>
+    <string name="fail_connect_server">Failed to connect server</string>
+    <string name="start_backup">Start backup...</string>
+    <string name="data_empty">Data is empty</string>
+    <string name="start_restore">Start restore...</string>
+    <string name="restore_success">Restore successfully</string>
 </resources>

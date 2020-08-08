@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.DetailCodeViewModel" />
+            type="com.nhq.authenticator.viewmodel.DetailCodeViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.DetailCodeActivity" />
+            type="com.nhq.authenticator.view.activities.DetailCodeActivity" />
     </data>
 
     <androidx.cardview.widget.CardView

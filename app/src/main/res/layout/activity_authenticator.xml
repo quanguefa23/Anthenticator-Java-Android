@@ -6,10 +6,10 @@
         <import type="android.view.View"/>
         <variable
             name="myViewModel"
-            type="com.za.androidauthenticator.viewmodel.AuthenticatorViewModel" />
+            type="com.nhq.authenticator.viewmodel.AuthenticatorViewModel" />
         <variable
             name="myController"
-            type="com.za.androidauthenticator.view.activities.AuthenticatorActivity" />
+            type="com.nhq.authenticator.view.activities.AuthenticatorActivity" />
     </data>
 
     <FrameLayout
