@@ -15,6 +15,9 @@
 ![9](https://user-images.githubusercontent.com/60953757/89712885-f2932f80-d9bd-11ea-8248-e2ce5c7e68d2.jpg)  
 ![13](https://user-images.githubusercontent.com/60953757/89712886-f4f58980-d9bd-11ea-824a-50959df2518d.jpg)  
 
+## Install
+Install via APK: https://github.com/quanguefa23/Anthenticator-Java-Android/tree/master/release  
+
 ## Main technology  
 - MVVM Architecture  
 - LiveData  
