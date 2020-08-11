@@ -42,6 +42,8 @@ public class AuthenticatorViewModel extends ViewModel {
 
     private final Repository repository;
     private final SignInManager signInManager;
+
+    private final Handler handler = new Handler(getMainLooper());
     private LiveData<List<AuthCode>> listCodes;
 
     public AuthenticatorViewModel(Repository repository, SignInManager signInManager) {
@@ -116,7 +118,7 @@ public class AuthenticatorViewModel extends ViewModel {
 
     public void configShowHideOption(MenuItem item) {
         showCodesFlag.setValue(!showCodesFlag.getValue());
-        new Handler(getMainLooper()).postDelayed(() -> setTitleShowHideItem(item), 350);
+        handler.postDelayed(() -> setTitleShowHideItem(item), 350);
         repository.saveShowCodePref(showCodesFlag.getValue());
     }
 
