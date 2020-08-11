@@ -48,7 +48,7 @@ public class EnterKeyViewModel extends ViewModel {
                     Toast.LENGTH_SHORT).show();
         }
         else {
-            repository.getLocalDataSource().insertNewCode(key, siteName, accountName);
+            repository.insertNewCode(key, siteName, accountName);
             Toast.makeText(AuthenticatorApp.getInstance(), R.string.enter_key_success,
                     Toast.LENGTH_SHORT).show();
             return true;

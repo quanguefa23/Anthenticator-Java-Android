@@ -25,7 +25,7 @@
             android:enabled="true"
             android:exported="false" />
 
-        <receiver android:name=".appcomponent.broadcastreceiver.PinCodeActionReceiver" />
+        <receiver android:name=".appcomponent.bcreceiver.PinCodeActionReceiver" />
 
         <activity android:name=".view.activities.ExportCodeActivity" />
         <activity android:name=".view.activities.ScanQrActivity" />

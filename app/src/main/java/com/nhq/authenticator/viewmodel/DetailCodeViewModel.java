@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -33,27 +34,27 @@ public class DetailCodeViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public MutableLiveData<Integer> getReTimeNumber() {
+    public LiveData<Integer> getReTimeNumber() {
         return reTimeNumber;
     }
 
-    public MutableLiveData<String> getSiteName() {
+    public LiveData<String> getSiteName() {
         return siteName;
     }
 
-    public MutableLiveData<String> getAccountName() {
+    public LiveData<String> getAccountName() {
         return accountName;
     }
 
-    public MutableLiveData<Integer> getSiteIcon() {
+    public LiveData<Integer> getSiteIcon() {
         return siteIcon;
     }
 
-    public MutableLiveData<String> getReTimeString() {
+    public LiveData<String> getReTimeString() {
         return reTimeString;
     }
 
-    public MutableLiveData<String> getCodeString() {
+    public LiveData<String> getCodeString() {
         return codeString;
     }
 
@@ -92,7 +93,7 @@ public class DetailCodeViewModel extends ViewModel {
     }
 
     public void deleteThisAuthCode() {
-        repository.getLocalDataSource().deleteCode(authCode);
+        repository.deleteCode(authCode);
     }
 
     public void updateCodeInfo(String siteName, String accountName, Dialog dialog) {
@@ -110,7 +111,7 @@ public class DetailCodeViewModel extends ViewModel {
             authCode.accountName = accountName;
 
             updateInfoDataToView();
-            repository.getLocalDataSource().updateCode(authCode);
+            repository.updateCode(authCode);
 
             Toast.makeText(AuthenticatorApp.getInstance(), R.string.update_success_notification,
                     Toast.LENGTH_SHORT).show();

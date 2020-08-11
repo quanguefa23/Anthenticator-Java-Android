@@ -3,6 +3,7 @@ package com.nhq.authenticator.di.module;
 import androidx.lifecycle.ViewModel;
 
 import com.nhq.authenticator.data.repository.Repository;
+import com.nhq.authenticator.data.repository.SignInManager;
 import com.nhq.authenticator.viewmodel.AuthenticatorViewModel;
 import com.nhq.authenticator.viewmodel.DetailCodeViewModel;
 import com.nhq.authenticator.viewmodel.EnterKeyViewModel;
@@ -41,8 +42,8 @@ public class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(AuthenticatorViewModel.class)
-    ViewModel authenticatorViewModel(Repository repository) {
-        return new AuthenticatorViewModel(repository);
+    ViewModel authenticatorViewModel(Repository repository, SignInManager signInManager) {
+        return new AuthenticatorViewModel(repository, signInManager);
     }
 
     @Provides

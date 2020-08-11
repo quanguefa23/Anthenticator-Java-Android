@@ -1,8 +1,8 @@
 package com.nhq.authenticator.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -13,18 +13,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.nhq.authenticator.R;
 import com.nhq.authenticator.appcomponent.AuthenticatorApp;
 import com.nhq.authenticator.data.entity.AuthCode;
 import com.nhq.authenticator.data.repository.Repository;
+import com.nhq.authenticator.data.repository.SignInManager;
 import com.nhq.authenticator.data.repository.remote.RemoteDataSource;
 import com.nhq.authenticator.util.FormatStringUtil;
 import com.nhq.authenticator.util.calculator.CalTaskByHandlerThread;
@@ -33,16 +28,11 @@ import com.nhq.authenticator.util.ui.LoadingDialog;
 import com.nhq.authenticator.view.activities.AuthenticatorActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.os.Looper.getMainLooper;
 
 public class AuthenticatorViewModel extends ViewModel {
-
-    private static final String SHOW_CODE_PREFERENCES_KEY = "isShowing";
-    private static final String PREFERENCES_STATE_NAME = "AuthenticatorState";
 
     private CalculationTask calculationTask;
     private MutableLiveData<Boolean> showCodesFlag = new MutableLiveData<>(true);
@@ -51,30 +41,32 @@ public class AuthenticatorViewModel extends ViewModel {
     private MutableLiveData<Boolean> triggerUpdateCode = new MutableLiveData<>();
 
     private final Repository repository;
+    private final SignInManager signInManager;
     private LiveData<List<AuthCode>> listCodes;
 
-    public AuthenticatorViewModel(Repository repository) {
+    public AuthenticatorViewModel(Repository repository, SignInManager signInManager) {
         this.repository = repository;
-        listCodes = this.repository.getLocalDataSource().getListCodesLocal();
+        this.signInManager = signInManager;
+        listCodes = this.repository.getListCodesLocal();
     }
 
     public LiveData<List<AuthCode>> getListCodes() {
         return listCodes;
     }
 
-    public MutableLiveData<Boolean> getTriggerUpdateTime() {
+    public LiveData<Boolean> getTriggerUpdateTime() {
         return triggerUpdateTime;
     }
 
-    public MutableLiveData<Boolean> getTriggerUpdateCode() {
+    public LiveData<Boolean> getTriggerUpdateCode() {
         return triggerUpdateCode;
     }
 
-    public MutableLiveData<Boolean> getShowCodesFlag() {
+    public LiveData<Boolean> getShowCodesFlag() {
         return showCodesFlag;
     }
 
-    public MutableLiveData<Boolean> getSignInFlag() {
+    public LiveData<Boolean> getSignInFlag() {
         return signInFlag;
     }
 
@@ -125,51 +117,32 @@ public class AuthenticatorViewModel extends ViewModel {
     public void configShowHideOption(MenuItem item) {
         showCodesFlag.setValue(!showCodesFlag.getValue());
         new Handler(getMainLooper()).postDelayed(() -> setTitleShowHideItem(item), 350);
+        repository.saveShowCodePref(showCodesFlag.getValue());
+    }
 
-        //remember selection
-        SharedPreferences sharedPreferences = AuthenticatorApp.getInstance().getSharedPreferences(
-                PREFERENCES_STATE_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(SHOW_CODE_PREFERENCES_KEY, showCodesFlag.getValue());
-        editor.apply();
+    public Intent getSignInIntent(Activity activity) {
+        return signInManager.getSignInIntent(activity);
     }
 
     public void handleSignInResult(Intent result, Context context, int requestCode) {
-        GoogleSignIn.getSignedInAccountFromIntent(result)
-                .addOnSuccessListener(googleAccount -> {
-                    Log.d(AuthenticatorApp.APP_TAG, "Signed in as " + googleAccount.getEmail());
+        repository.handleSignInResult(result, context, () -> {
+            signInFlag.setValue(true);
+            // notify to user
+            if (requestCode == AuthenticatorActivity.REQUEST_CODE_SIGN_IN)
+                Toast.makeText(AuthenticatorApp.getInstance(), R.string.sign_in_success,
+                        Toast.LENGTH_SHORT).show();
 
-                    // Use the authenticated account to sign in to the Drive service.
-                    GoogleAccountCredential credential = GoogleAccountCredential
-                            .usingOAuth2(context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
-                    credential.setSelectedAccount(googleAccount.getAccount());
-                    Drive ggDrive = new Drive.Builder(
-                            AndroidHttp.newCompatibleTransport(),
-                            new GsonFactory(), credential)
-                            .setApplicationName("Drive API Migration")
-                            .build();
-
-                    repository.getRemoteDataSource().createGoogleDriveService(ggDrive);
-                    signInFlag.setValue(true);
-
-                    // notify to user
-                    if (requestCode == AuthenticatorActivity.REQUEST_CODE_SIGN_IN)
-                        Toast.makeText(AuthenticatorApp.getInstance(), R.string.sign_in_success,
-                                Toast.LENGTH_SHORT).show();
-
-                    switch (requestCode) {
-                        case AuthenticatorActivity.REQUEST_CODE_SIGN_IN_BACKUP: {
-                            backupToGgDrive(context);
-                            break;
-                        }
-                        case AuthenticatorActivity.REQUEST_CODE_SIGN_IN_RESTORE: {
-                            restoreDataFromGgDrive(context);
-                            break;
-                        }
-                    }
-                })
-                .addOnFailureListener(exception ->
-                        Log.e(AuthenticatorApp.APP_TAG, "Unable to sign in", exception));
+            switch (requestCode) {
+                case AuthenticatorActivity.REQUEST_CODE_SIGN_IN_BACKUP: {
+                    backupToGgDrive(context);
+                    break;
+                }
+                case AuthenticatorActivity.REQUEST_CODE_SIGN_IN_RESTORE: {
+                    restoreDataFromGgDrive(context);
+                    break;
+                }
+            }
+        });
     }
 
     public void restoreDataFromGgDrive(Context context) {
@@ -177,7 +150,7 @@ public class AuthenticatorViewModel extends ViewModel {
         LoadingDialog loadingDialog = new LoadingDialog(context);
         loadingDialog.start();
 
-        repository.getRemoteDataSource().getListDataFile(new RemoteDataSource.GetListFileCallBack() {
+        repository.getListDataFile(new RemoteDataSource.GetListFileCallBack() {
             @Override
             public void onReceive(FileList fileList) {
                 List<File> listFile = fileList.getFiles();
@@ -207,7 +180,7 @@ public class AuthenticatorViewModel extends ViewModel {
     }
 
     private void getCodesViaFileId(String id, LoadingDialog loadingDialog) {
-        repository.getRemoteDataSource().getCodesViaFileId(id, new RemoteDataSource.GetCodesCallBack() {
+        repository.getCodesViaFileId(id, new RemoteDataSource.GetCodesCallBack() {
             @Override
             public void onReceive(List<AuthCode> codes) {
                 List<AuthCode> newCodes = new ArrayList<>();
@@ -216,7 +189,7 @@ public class AuthenticatorViewModel extends ViewModel {
                     if (!isContains(oldCodes, code))
                         newCodes.add(code);
                 }
-                repository.getLocalDataSource().insertCodes(newCodes);
+                repository.insertCodes(newCodes);
                 loadingDialog.stop();
                 Toast.makeText(AuthenticatorApp.getInstance(), R.string.restore_success,
                         Toast.LENGTH_LONG).show();
@@ -233,7 +206,6 @@ public class AuthenticatorViewModel extends ViewModel {
 
             @Override
             public void onFailure() {
-
             }
         });
     }
@@ -274,7 +246,7 @@ public class AuthenticatorViewModel extends ViewModel {
         }
 
         String exportString = exportCodesDataToText(codes);
-        repository.getRemoteDataSource().createDataFile(exportString, new RemoteDataSource.CreateFileCallBack() {
+        repository.createDataFile(exportString, new RemoteDataSource.CreateFileCallBack() {
             @Override
             public void onSuccess() {
                 loadingDialog.stop();
@@ -298,18 +270,15 @@ public class AuthenticatorViewModel extends ViewModel {
         return stringBuilder.toString();
     }
 
-    public boolean updateShowCodesFlagFromPreferences() {
-        SharedPreferences sharedPreferences = AuthenticatorApp.getInstance().getSharedPreferences(
-                PREFERENCES_STATE_NAME, MODE_PRIVATE);
-        boolean res = sharedPreferences.getBoolean(SHOW_CODE_PREFERENCES_KEY, true);
+    public boolean updateShowCodesFlag() {
+        boolean res = repository.getShowCodePref();
         showCodesFlag.setValue(res);
         return res;
     }
 
     public void syncTime(Context context) {
         LoadingDialog loadingDialog = new LoadingDialog(context);
-        repository.getRemoteDataSource().
-                getTime(new RemoteDataSource.GetTimeCallBack() {
+        repository.getTime(new RemoteDataSource.GetTimeCallBack() {
             @Override
             public void onResponse(int unixTime) {
                 AuthenticatorApp.DIFF_TIME_SECOND =

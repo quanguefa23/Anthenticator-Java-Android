@@ -49,7 +49,7 @@ public class ScanQrViewModel extends ViewModel {
         }
         String accountName = getAccountName(utf8String);
 
-        repository.getLocalDataSource().insertNewCode(key, siteName, accountName);
+        repository.insertNewCode(key, siteName, accountName);
         Toast.makeText(AuthenticatorApp.getInstance(), R.string.scan_qr_success, Toast.LENGTH_SHORT).show();
     }
 
