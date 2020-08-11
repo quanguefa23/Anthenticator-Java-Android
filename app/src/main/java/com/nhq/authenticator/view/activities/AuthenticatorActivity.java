@@ -50,7 +50,6 @@ public class AuthenticatorActivity extends BaseActivity {
         binding.setMyViewModel(viewModel);
         binding.setMyController(this);
 
-        setupAndObserveSignInView();
         observeShowHideView();
         prepareRecyclerView();
         setOnClickItemRecyclerView();
@@ -58,19 +57,10 @@ public class AuthenticatorActivity extends BaseActivity {
     }
 
     private void observeShowHideView() {
-        adapter.setShowCodesFlag(viewModel.updateShowCodesFlagFromPreferences());
+        adapter.setShowCodesFlag(viewModel.updateShowCodesFlag());
         viewModel.getShowCodesFlag().observe(this, isShowCode -> {
             adapter.setShowCodesFlag(isShowCode);
             adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void setupAndObserveSignInView() {
-        viewModel.getSignInFlag().observe(this, isSignIn -> {
-            if (isSignIn) {
-                binding.recommendSignIn.setVisibility(View.INVISIBLE);
-                binding.signInButton.setVisibility(View.INVISIBLE);
-            }
         });
     }
 
@@ -214,15 +204,8 @@ public class AuthenticatorActivity extends BaseActivity {
             Toast.makeText(AuthenticatorActivity.this, R.string.request_sign_in,
                 Toast.LENGTH_SHORT).show();
 
-        GoogleSignInOptions signInOptions =
-                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .requestScopes(new Scope(DriveScopes.DRIVE_APPDATA))
-                        .build();
-        GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
-
         // The result of the sign-in Intent is handled in onActivityResult.
-        startActivityForResult(client.getSignInIntent(), requestCode);
+        startActivityForResult(viewModel.getSignInIntent(this), requestCode);
     }
 
     @Override

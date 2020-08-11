@@ -122,6 +122,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:visibility="@{(myViewModel.signInFlag == null || myViewModel.signInFlag == false) ? View.VISIBLE : View.INVISIBLE}"
                 android:id="@+id/recommendSignIn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -164,6 +165,7 @@
 
             <Button
                 android:onClick="@{() -> myController.requestSignInGoogle()}"
+                android:visibility="@{(myViewModel.signInFlag == null || myViewModel.signInFlag == false) ? View.VISIBLE : View.INVISIBLE}"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:background="@drawable/button_custom"

@@ -14,7 +14,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.nhq.authenticator.R;
 import com.nhq.authenticator.appcomponent.AuthenticatorApp;
-import com.nhq.authenticator.appcomponent.broadcastreceiver.PinCodeActionReceiver;
+import com.nhq.authenticator.appcomponent.bcreceiver.PinCodeActionReceiver;
 import com.nhq.authenticator.data.entity.AuthCode;
 import com.nhq.authenticator.util.FormatStringUtil;
 import com.nhq.authenticator.util.calculator.CalTaskByHandlerThread;

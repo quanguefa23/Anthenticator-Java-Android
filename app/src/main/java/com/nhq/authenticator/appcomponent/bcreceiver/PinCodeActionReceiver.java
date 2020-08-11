@@ -1,4 +1,4 @@
-package com.nhq.authenticator.appcomponent.broadcastreceiver;
+package com.nhq.authenticator.appcomponent.bcreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

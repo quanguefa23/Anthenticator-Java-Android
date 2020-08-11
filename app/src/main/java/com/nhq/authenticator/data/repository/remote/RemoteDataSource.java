@@ -1,15 +1,24 @@
 package com.nhq.authenticator.data.repository.remote;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.FileList;
 import com.nhq.authenticator.appcomponent.AuthenticatorApp;
 import com.nhq.authenticator.data.entity.AuthCode;
 import com.nhq.authenticator.data.entity.ResponseTime;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,8 +36,33 @@ public class RemoteDataSource {
         this.timeRetrofitService = timeRetrofitService;
     }
 
-    public void createGoogleDriveService(Drive driveService) {
-        googleDriveService = new GoogleDriveService(driveService);
+    public interface SignInCallback {
+        void onSuccess();
+    }
+
+    public void handleSignInResult(Intent result, Context context, RemoteDataSource.SignInCallback callback) {
+        GoogleSignIn.getSignedInAccountFromIntent(result)
+                .addOnSuccessListener(googleAccount -> {
+                    Log.d(AuthenticatorApp.APP_TAG, "Signed in as " + googleAccount.getEmail());
+                    createGoogleDriveService(context, googleAccount);
+                    callback.onSuccess();
+                })
+                .addOnFailureListener(exception ->
+                        Log.e(AuthenticatorApp.APP_TAG, "Unable to sign in", exception));
+    }
+
+    public void createGoogleDriveService(Context context, GoogleSignInAccount googleAccount) {
+        // Use the authenticated account to sign in to the Drive service.
+        GoogleAccountCredential credential = GoogleAccountCredential
+                .usingOAuth2(context, Collections.singleton(DriveScopes.DRIVE_APPDATA));
+        credential.setSelectedAccount(googleAccount.getAccount());
+        Drive ggDrive = new Drive.Builder(
+                AndroidHttp.newCompatibleTransport(),
+                new GsonFactory(), credential)
+                .setApplicationName("Drive API Migration")
+                .build();
+
+        googleDriveService = new GoogleDriveService(ggDrive);
     }
 
     public interface GetListFileCallBack {
