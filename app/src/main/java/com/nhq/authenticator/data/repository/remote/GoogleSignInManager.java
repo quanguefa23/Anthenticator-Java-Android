@@ -10,9 +10,12 @@ import com.google.android.gms.common.api.Scope;
 import com.google.api.services.drive.DriveScopes;
 import com.nhq.authenticator.data.repository.SignInManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public class GoogleSignInManager implements SignInManager {
+    @NotNull
     @Override
-    public Intent getSignInIntent(Activity activity) {
+    public Intent getSignInIntent(@NotNull Activity activity) {
         GoogleSignInOptions signInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestEmail()

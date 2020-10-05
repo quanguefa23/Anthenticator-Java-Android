@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -85,4 +86,9 @@ dependencies {
     implementation('com.google.apis:google-api-services-drive:v3-rev136-1.25.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

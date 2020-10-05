@@ -25,7 +25,7 @@ public class EnterKeyViewModel extends ViewModel {
 
     public List<String> getDataDropdownMenu() {
         if (dataDropdownMenu == null) {
-            dataDropdownMenu = new ArrayList<>(SitesAvailable.getListSites());
+            dataDropdownMenu = new ArrayList<>(SitesAvailable.getSites());
             dataDropdownMenu.add(AuthenticatorApp.getInstance().getString(R.string.others));
         }
         return dataDropdownMenu;

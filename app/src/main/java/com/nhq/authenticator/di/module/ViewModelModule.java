@@ -18,6 +18,7 @@ import java.lang.annotation.Target;
 import java.util.Map;
 
 import javax.inject.Provider;
+import javax.inject.Singleton;
 
 import dagger.MapKey;
 import dagger.Module;
@@ -34,6 +35,7 @@ public class ViewModelModule {
         Class<? extends ViewModel> value();
     }
 
+    @Singleton
     @Provides
     ViewModelFactory viewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> providerMap) {
         return new ViewModelFactory(providerMap);
